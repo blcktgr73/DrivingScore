@@ -1,4 +1,4 @@
-# 공개 데이터 기반 운전 점수 시스템 연구 계획
+﻿# 공개 데이터 기반 운전 점수 시스템 연구 계획
 
 ## 🎯 연구 목표
 
@@ -105,6 +105,13 @@
 - 산출물: research/phase2_model_development.py, research/phase2_results.json
 
 
+#### Phase 3 실데이터 결과 요약 (2025-09-27)
+- Kaggle `outofskills/driving-behavior` 센서 데이터 8틱 윈도우 455개 집계 (AGGRESSIVE 28.6%), night ratio ~0.50
+- Scenario A: Logistic AUC 0.743 / SAFE 사고율 14.6% / Aggressive 컷오프 77점
+- Scenario B: Logistic AUC 0.727 / SAFE 사고율 23.0% / SAFE 비중 86.8%
+- 야간 급회전·과속 가중치가 주간 대비 2~3배 → 실제 시각·환경 피처 확보 필요
+- 산출물: research/phase3_real_data_analysis.py, research/phase3_results.json, docs/Phase3_Report.md
+
 #### 2.1 이벤트 구성 결정 및 가중치 최적화
 - **목표**: Phase 1 결과 기반 3개 이벤트 시스템의 가중치 도출
 - **방법**:
@@ -137,23 +144,31 @@
   - 혼동행렬 분석을 통한 오분류 패턴 파악
 - **예상 결과**: 모델 성능 벤치마크 리포트
 
-### Phase 3: 심화 분석 및 검증 (2주)
+### Phase 3: 실데이터 검증 (진행 중)
 
-#### 3.1 시계열 패턴 분석
-- **목표**: 장기 운전 패턴과 사고 위험도 관계 분석
+#### 3.1 Kaggle 센서 데이터 전처리
+- **목표**: Driver Behavior Analysis 데이터로 이벤트 카운트(급가속/급정거/급회전/과속) 추출
 - **방법**:
-  - 500km 구간별 운전 패턴 변화 추적
-  - 시간에 따른 운전 행동 개선/악화 패턴 분석
-  - 계절성 및 트렌드 분석
-- **예상 결과**: 장기 평가 체계의 타당성 검증
+  - Timestamp 기준 8틱 윈도우 묶음, night flag=((Timestamp//5) % 2)
+  - AccX 임계치 ±1.2, |GyroZ|>1.0, 속도지표 상위 8%를 과속으로 정의
+  - 다수 Class=AGGRESSIVE → label=1, 그 외 0 → 455개 윈도우 생성
+- **결과**: AGGRESSIVE 비중 28.6%, night ratio 0.50, overspeed threshold ~ 6.1
 
-#### 3.2 교차 검증 및 일반화 테스트
-- **목표**: 모델의 일반화 성능 및 안정성 검증
+#### 3.2 시나리오 A/B 모델 평가
+- **목표**: 실데이터 기반으로 Phase 2 가중치/컷오프 비교
 - **방법**:
-  - K-fold 교차검증 (k=5)
-  - 지역별, 연도별 데이터 분할 테스트
-  - 부트스트랩 리샘플링을 통한 신뢰구간 계산
-- **예상 결과**: 모델 안정성 및 일반화 성능 보고서
+  - Logistic Regression + XGBoost + LightGBM (train/test 75:25, stratify)
+  - Scenario A: 과속 이벤트 포함 / Scenario B: 과속 제외
+- **결과**:
+  - Scenario A Logistic AUC 0.743, SAFE 사고율 14.6%, Aggressive 컷오프 77점
+  - Scenario B Logistic AUC 0.727, SAFE 사고율 23.0%, SAFE 비중 86.8%
+  - 야간 급회전·과속 가중치가 주간 대비 2~3배, 실제 시간/환경 피처 필요
+
+#### 3.3 후속 과제
+- US Accidents / Porto Seguro 데이터 결합으로 환경 계수(기상·도로) 보강
+- night/day 근사치 대신 실제 시각·위치 정보가 포함된 로그 확보
+- SAFE 등급 사고율 15% 이하를 위한 확률 보정·컷오프 재설계
+- Phase 2/3 결과 통합 리포트 및 score migration checklist 준비
 
 ---
 

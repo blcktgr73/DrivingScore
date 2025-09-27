@@ -1,0 +1,231 @@
+{
+  "dataset": {
+    "records": 455,
+    "positive_rate": 0.2857,
+    "mean_night_ratio": 0.5005
+  },
+  "scenario_with": {
+    "label": "Scenario A: with overspeeding",
+    "event_weights": {
+      "day": {
+        "rapid_acceleration": 1.87,
+        "sudden_stop": 1.88,
+        "sharp_turn": 2.15,
+        "over_speeding": 2.9
+      },
+      "night": {
+        "rapid_acceleration": 1.55,
+        "sudden_stop": 2.42,
+        "sharp_turn": 2.45,
+        "over_speeding": 5.98
+      }
+    },
+    "environment_params": {
+      "coeffs": {
+        "night_ratio": -0.723834873667592,
+        "mean_accel_mag": 1.5838315563936043,
+        "gyro_abs_mean": -0.5252952788205214,
+        "accel_std": 0.9725989360340558
+      },
+      "means": {
+        "night_ratio": 0.5005397898804492,
+        "mean_accel_mag": 1.4173915171558826,
+        "gyro_abs_mean": 0.062238172719961425,
+        "accel_std": 0.8575796688278816
+      },
+      "caps": [
+        0.85,
+        1.9
+      ]
+    },
+    "model_metrics": {
+      "logistic_regression": {
+        "name": "logistic_regression",
+        "accuracy": 0.7018,
+        "precision": 0.4889,
+        "recall": 0.6667,
+        "f1": 0.5641,
+        "auc": 0.743
+      },
+      "xgboost": {
+        "name": "xgboost",
+        "accuracy": 0.7544,
+        "precision": 0.5926,
+        "recall": 0.4848,
+        "f1": 0.5333,
+        "auc": 0.7276
+      },
+      "lightgbm": {
+        "name": "lightgbm",
+        "accuracy": 0.7281,
+        "precision": 0.5357,
+        "recall": 0.4545,
+        "f1": 0.4918,
+        "auc": 0.6798
+      }
+    },
+    "score_summary": {
+      "safety_score_stats": {
+        "count": 455.0,
+        "mean": 84.06,
+        "std": 22.19,
+        "min": 0.0,
+        "10%": 53.62,
+        "25%": 77.92,
+        "50%": 93.51,
+        "75%": 98.41,
+        "90%": 100.0,
+        "max": 100.0
+      },
+      "grade_distribution": {
+        "AGGRESSIVE": 0.2462,
+        "MODERATE": 0.1055,
+        "SAFE": 0.6484
+      },
+      "grade_accident_rate": {
+        "AGGRESSIVE": 0.6429,
+        "MODERATE": 0.3125,
+        "SAFE": 0.1458
+      }
+    },
+    "thresholds": {
+      "aggressive_cut": 77.0,
+      "safe_cut": 88.0,
+      "moderate_range": [
+        77.1,
+        87.9
+      ]
+    },
+    "scored_records": 455
+  },
+  "scenario_without": {
+    "label": "Scenario B: without overspeeding",
+    "event_weights": {
+      "day": {
+        "rapid_acceleration": 1.49,
+        "sudden_stop": 1.31,
+        "sharp_turn": 3.8
+      },
+      "night": {
+        "rapid_acceleration": 0.69,
+        "sudden_stop": 1.63,
+        "sharp_turn": 6.98
+      }
+    },
+    "environment_params": {
+      "coeffs": {
+        "night_ratio": -0.695457132501181,
+        "mean_accel_mag": 2.496931712076807,
+        "gyro_abs_mean": -0.37212838298956274,
+        "accel_std": 1.2184301775783641
+      },
+      "means": {
+        "night_ratio": 0.5005397898804492,
+        "mean_accel_mag": 1.4173915171558826,
+        "gyro_abs_mean": 0.062238172719961425,
+        "accel_std": 0.8575796688278816
+      },
+      "caps": [
+        0.85,
+        1.9
+      ]
+    },
+    "model_metrics": {
+      "logistic_regression": {
+        "name": "logistic_regression",
+        "accuracy": 0.614,
+        "precision": 0.3962,
+        "recall": 0.6364,
+        "f1": 0.4884,
+        "auc": 0.7269
+      },
+      "xgboost": {
+        "name": "xgboost",
+        "accuracy": 0.7018,
+        "precision": 0.4828,
+        "recall": 0.4242,
+        "f1": 0.4516,
+        "auc": 0.6857
+      },
+      "lightgbm": {
+        "name": "lightgbm",
+        "accuracy": 0.6579,
+        "precision": 0.4118,
+        "recall": 0.4242,
+        "f1": 0.4179,
+        "auc": 0.6379
+      }
+    },
+    "score_summary": {
+      "safety_score_stats": {
+        "count": 455.0,
+        "mean": 95.14,
+        "std": 6.02,
+        "min": 69.54,
+        "10%": 85.94,
+        "25%": 93.24,
+        "50%": 97.56,
+        "75%": 98.89,
+        "90%": 100.0,
+        "max": 100.0
+      },
+      "grade_distribution": {
+        "AGGRESSIVE": 0.044,
+        "MODERATE": 0.0879,
+        "SAFE": 0.8681
+      },
+      "grade_accident_rate": {
+        "AGGRESSIVE": 0.8,
+        "MODERATE": 0.575,
+        "SAFE": 0.2304
+      }
+    },
+    "thresholds": {
+      "aggressive_cut": 80.5,
+      "safe_cut": 88.5,
+      "moderate_range": [
+        80.6,
+        88.4
+      ]
+    },
+    "scored_records": 455
+  },
+  "comparison": {
+    "model_deltas": {
+      "logistic_regression": {
+        "auc": -0.0161,
+        "f1": -0.0757,
+        "recall": -0.0303,
+        "precision": -0.0927,
+        "accuracy": -0.0878
+      },
+      "xgboost": {
+        "auc": -0.0419,
+        "f1": -0.0817,
+        "recall": -0.0606,
+        "precision": -0.1098,
+        "accuracy": -0.0526
+      },
+      "lightgbm": {
+        "auc": -0.0419,
+        "f1": -0.0739,
+        "recall": -0.0303,
+        "precision": -0.1239,
+        "accuracy": -0.0702
+      }
+    },
+    "grade_distribution_delta": {
+      "SAFE": 0.2197,
+      "MODERATE": -0.0176,
+      "AGGRESSIVE": -0.2022
+    },
+    "threshold_delta": {
+      "aggressive_cut": 3.5,
+      "safe_cut": 0.5,
+      "moderate_range": [
+        3.5,
+        0.5
+      ]
+    }
+  }
+}
