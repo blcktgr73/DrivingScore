@@ -1,0 +1,230 @@
+{
+  "dataset": {
+    "records": 35000,
+    "accident_rate": 0.7652,
+    "mean_night_ratio": 0.2855
+  },
+  "environment_factors": {
+    "weather": {
+      "clear": 1.0,
+      "rain": 1.1099217126117782,
+      "storm": 1.1637416601594697
+    },
+    "road": {
+      "highway": 1.0,
+      "suburban": 0.9945400114892693,
+      "urban": 1.0035256236909504
+    },
+    "night_bins": {
+      "low": 1.0,
+      "medium": 1.0527536933369477,
+      "high": 1.109785156156851
+    },
+    "traffic": {
+      "baseline": 0.5499298663439087,
+      "slope": 0.3056702609833504,
+      "min_factor": 0.9,
+      "max_factor": 1.45
+    },
+    "cap": 1.65
+  },
+  "scenarios": {
+    "with_overspeed": {
+      "label": "시나리오 A: 과속 포함 (4개 이벤트)",
+      "event_weights": {
+        "day": {
+          "rapid_acceleration": 2.94,
+          "sudden_stop": 3.49,
+          "sharp_turn": 2.07,
+          "over_speeding": 1.5
+        },
+        "night": {
+          "rapid_acceleration": 4.5,
+          "sudden_stop": 5.77,
+          "sharp_turn": 2.91,
+          "over_speeding": 1.23
+        }
+      },
+      "score_summary": {
+        "safety_score_stats": {
+          "count": 35000.0,
+          "mean": 48.64,
+          "std": 25.42,
+          "min": 0.0,
+          "10%": 6.0,
+          "25%": 31.55,
+          "50%": 52.68,
+          "75%": 68.73,
+          "90%": 79.09,
+          "max": 100.0
+        },
+        "grade_distribution": {
+          "AGGRESSIVE": 0.6425,
+          "MODERATE": 0.1276,
+          "SAFE": 0.2298
+        },
+        "grade_accident_rate": {
+          "AGGRESSIVE": 0.9183,
+          "MODERATE": 0.6868,
+          "SAFE": 0.3809
+        }
+      },
+      "thresholds": {
+        "aggressive_cut": 62.0,
+        "safe_cut": 70.0,
+        "moderate_range": [
+          62.1,
+          69.9
+        ]
+      },
+      "model_metrics": {
+        "logistic_regression": {
+          "name": "logistic_regression",
+          "accuracy": 0.7393,
+          "precision": 0.9341,
+          "recall": 0.7094,
+          "f1": 0.8064,
+          "auc": 0.8445
+        },
+        "xgboost": {
+          "name": "xgboost",
+          "accuracy": 0.8289,
+          "precision": 0.8591,
+          "recall": 0.9288,
+          "f1": 0.8926,
+          "auc": 0.8418
+        },
+        "lightgbm": {
+          "name": "lightgbm",
+          "accuracy": 0.825,
+          "precision": 0.8577,
+          "recall": 0.9247,
+          "f1": 0.89,
+          "auc": 0.8399
+        }
+      },
+      "mean_events_per_record": {
+        "rapid_acceleration": 4.445,
+        "sudden_stop": 4.353,
+        "sharp_turn": 2.761,
+        "over_speeding": 4.917
+      }
+    },
+    "without_overspeed": {
+      "label": "시나리오 B: 과속 제외 (3개 이벤트)",
+      "event_weights": {
+        "day": {
+          "rapid_acceleration": 2.58,
+          "sudden_stop": 3.07,
+          "sharp_turn": 1.86
+        },
+        "night": {
+          "rapid_acceleration": 3.67,
+          "sudden_stop": 4.7,
+          "sharp_turn": 2.43
+        }
+      },
+      "score_summary": {
+        "safety_score_stats": {
+          "count": 35000.0,
+          "mean": 61.45,
+          "std": 21.63,
+          "min": 0.0,
+          "10%": 30.89,
+          "25%": 49.66,
+          "50%": 65.59,
+          "75%": 77.54,
+          "90%": 85.48,
+          "max": 100.0
+        },
+        "grade_distribution": {
+          "AGGRESSIVE": 0.6307,
+          "MODERATE": 0.1078,
+          "SAFE": 0.2615
+        },
+        "grade_accident_rate": {
+          "AGGRESSIVE": 0.9186,
+          "MODERATE": 0.7151,
+          "SAFE": 0.4161
+        }
+      },
+      "thresholds": {
+        "aggressive_cut": 72.0,
+        "safe_cut": 77.0,
+        "moderate_range": [
+          72.1,
+          76.9
+        ]
+      },
+      "model_metrics": {
+        "logistic_regression": {
+          "name": "logistic_regression",
+          "accuracy": 0.7337,
+          "precision": 0.9324,
+          "recall": 0.703,
+          "f1": 0.8016,
+          "auc": 0.8416
+        },
+        "xgboost": {
+          "name": "xgboost",
+          "accuracy": 0.8265,
+          "precision": 0.8562,
+          "recall": 0.9294,
+          "f1": 0.8913,
+          "auc": 0.8373
+        },
+        "lightgbm": {
+          "name": "lightgbm",
+          "accuracy": 0.8233,
+          "precision": 0.8563,
+          "recall": 0.9243,
+          "f1": 0.889,
+          "auc": 0.8364
+        }
+      },
+      "mean_events_per_record": {
+        "rapid_acceleration": 4.445,
+        "sudden_stop": 4.353,
+        "sharp_turn": 2.761
+      }
+    }
+  },
+  "comparison": {
+    "model_deltas": {
+      "logistic_regression": {
+        "auc": -0.0029,
+        "f1": -0.0048,
+        "recall": -0.0064,
+        "precision": -0.0017,
+        "accuracy": -0.0056
+      },
+      "xgboost": {
+        "auc": -0.0045,
+        "f1": -0.0013,
+        "recall": 0.0006,
+        "precision": -0.0029,
+        "accuracy": -0.0024
+      },
+      "lightgbm": {
+        "auc": -0.0035,
+        "f1": -0.001,
+        "recall": -0.0004,
+        "precision": -0.0014,
+        "accuracy": -0.0017
+      }
+    },
+    "grade_distribution_delta": {
+      "SAFE": 0.0317,
+      "MODERATE": -0.0198,
+      "AGGRESSIVE": -0.0118
+    },
+    "threshold_delta": {
+      "aggressive_cut": 10.0,
+      "safe_cut": 7.0,
+      "moderate_range": [
+        10.0,
+        7.0
+      ]
+    }
+  }
+}
