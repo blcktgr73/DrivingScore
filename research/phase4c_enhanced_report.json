@@ -1,0 +1,63 @@
+{
+  "phase": "Phase 4-C Enhanced Analysis",
+  "execution_date": "2025-09-30 20:45:49",
+  "data_summary": {
+    "us_accidents": 200000,
+    "vehicle_sensors": 20000,
+    "matched_samples": 15000,
+    "accident_rate_pct": 35.913333333333334
+  },
+  "scenario_a": {
+    "metrics": {
+      "accuracy": 0.6608,
+      "precision": 0.7387387387387387,
+      "recall": 0.061886792452830186,
+      "f1": 0.11420612813370475,
+      "auc": 0.6724578097646365,
+      "confusion_matrix": {
+        "tp": 82,
+        "fp": 29,
+        "tn": 2396,
+        "fn": 1243
+      }
+    },
+    "weights": {
+      "rapid_accel": 0.05877954424286217,
+      "sudden_stop": 0.04889503146198183,
+      "sharp_turn": 0.034952694572976555,
+      "over_speed": 0.04140166874777132
+    },
+    "correlations": {
+      "rapid_accel": 0.16205639384493653,
+      "sudden_stop": 0.1646857108964753,
+      "sharp_turn": 0.14498025635708042,
+      "over_speed": 0.14220124519400193
+    }
+  },
+  "scenario_b": {
+    "metrics": {
+      "accuracy": 0.656,
+      "precision": 0.6548672566371682,
+      "recall": 0.05584905660377359,
+      "f1": 0.10292072322670376,
+      "auc": 0.6692540750826682,
+      "confusion_matrix": {
+        "tp": 74,
+        "fp": 39,
+        "tn": 2386,
+        "fn": 1251
+      }
+    },
+    "weights": {
+      "rapid_accel": 0.06213419777485277,
+      "sudden_stop": 0.052137015993603826,
+      "sharp_turn": 0.03773685828488512
+    },
+    "correlations": {
+      "rapid_accel": 0.16205639384493653,
+      "sudden_stop": 0.1646857108964753,
+      "sharp_turn": 0.14498025635708042
+    }
+  },
+  "recommendation": "Scenario A (4 events)"
+}

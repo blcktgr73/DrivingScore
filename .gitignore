@@ -2,3 +2,5 @@
 .claude/
 
 data/
+
+*.log

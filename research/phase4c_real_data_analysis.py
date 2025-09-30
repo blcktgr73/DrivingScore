@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Phase 4-C: 실제 Kaggle 데이터 분석
 ====================================
@@ -21,20 +22,20 @@ python research/phase4c_real_data_analysis.py
 """
 
 import os
+import sys
 import json
 import math
 from datetime import datetime, timedelta
 from collections import defaultdict
 
-print("""
-╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║       Phase 4-C: 실제 Kaggle 데이터 분석                    ║
-║                                                              ║
-║  목표: 50,000-100,000개 실제 매칭으로 최종 검증            ║
-║                                                              ║
-╚══════════════════════════════════════════════════════════════╝
-""")
+# UTF-8 출력 설정
+if sys.platform == 'win32':
+    sys.stdout.reconfigure(encoding='utf-8')
+
+print("=" * 60)
+print("Phase 4-C: 실제 Kaggle 데이터 분석")
+print("목표: 50,000-100,000개 실제 매칭으로 최종 검증")
+print("=" * 60)
 
 # 유틸리티 함수들
 def mean(data):
