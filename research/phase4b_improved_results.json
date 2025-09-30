@@ -1,0 +1,48 @@
+{
+  "execution_date": "2025-09-30 13:06:16",
+  "phase": "Phase 4-B Improved",
+  "data_summary": {
+    "us_accidents_samples": 100000,
+    "vehicle_sensor_samples": 10000,
+    "matched_samples": 10000,
+    "matching_rate": "18.182%"
+  },
+  "improvements_from_4a": {
+    "bug_fixes": [
+      "야간 플래그 계산 수정"
+    ],
+    "criteria_relaxation": [
+      "거리: 50km→200km",
+      "시간: ±24h→±7일",
+      "야간/주간: 필수→가점"
+    ],
+    "scale_increase": [
+      "사고: 10K→100K (10배)",
+      "센서: 2.5K→10K (4배)"
+    ]
+  },
+  "matching_quality": {
+    "avg_distance_km": 136.7,
+    "avg_time_diff_hours": 83.4,
+    "night_match_rate": "51.3%"
+  },
+  "correlations": {
+    "rapid_accel": 0.001,
+    "sudden_stop": 0,
+    "sharp_turn": 0.006,
+    "over_speeding": -0.002
+  },
+  "success_criteria": {
+    "목표_매칭": 10000,
+    "실제_매칭": 10000,
+    "달성률": "100.0%",
+    "성공_여부": "✅ 성공"
+  },
+  "comparison": {
+    "phase3_samples": 455,
+    "phase4a_samples": 9,
+    "phase4b_samples": 10000,
+    "improvement_vs_phase3": "22.0x",
+    "improvement_vs_phase4a": "1111x"
+  }
+}

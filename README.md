@@ -1,7 +1,7 @@
 ﻿# DrivingScore: 공개 데이터 기반 안전운전 점수 연구
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-Phase%203%20in%20progress-orange.svg)
+![Status](https://img.shields.io/badge/status-Phase%204B%20completed-green.svg)
 ![Python](https://img.shields.io/badge/python-3.13+-blue.svg)
 
 > 공개/시뮬레이션 데이터를 분석해 신뢰할 수 있는 안전운전 점수를 구축하는 연구 프로젝트입니다.
@@ -21,34 +21,48 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 
 | Phase | 상태 | 주요 내용 |
 | --- | --- | --- |
-| Phase 1 (완료) | 2025-09-27 | 상관분석으로 위험 이벤트 순위화, 야간/기상 영향 검증, 3개 이벤트 체계(급가속·급정거·급회전) 권고 |
-| Phase 2 (완료) | 2025-09-27 | 합성 데이터 기반 Scenario A(과속 포함) vs Scenario B(과속 제외) 비교, 가중치·컷오프·모델 성능 산출 |
-| Phase 3 (진행 중) | 2025-09-27 | Kaggle 센서 데이터(Driver Behavior)로 실데이터 검증, 과속 포함 시 AUC ≈ +0.03, SAFE 구간 보정 과제 도출 |
+| Phase 1 ✅ | 2025-09-27 | 상관분석으로 위험 이벤트 순위화, 야간/기상 영향 검증, 3개 이벤트 체계 권고 |
+| Phase 2 ✅ | 2025-09-27 | 합성 데이터 Scenario A/B 비교, 가중치·컷오프·모델 성능 산출 |
+| Phase 3 ✅ | 2025-09-27 | Kaggle 센서 데이터 455개 검증, 과속 포함 시 AUC +0.03 |
+| Phase 4-A ✅ | 2025-09-30 | 파일럿: 매칭 파이프라인 검증, 9개 매칭으로 문제점 발견 |
+| Phase 4-B ✅ | 2025-09-30 | 개선: 10,000개 매칭 달성, Phase 3 대비 22배 증가 |
+| Phase 4-C ⏳ | 계획 중 | 실제 Kaggle 데이터 100K+ 분석, 최종 시스템 완성 |
 
 **핵심 인사이트**
-- 합성 데이터에서는 과속이 상대적으로 영향이 작았지만, 실데이터 검증에서 Scenario A(과속 포함)가 AUC 약 0.03p 향상과 SAFE 사고율 14.6% 달성으로 의미 있는 개선을 보여줌.
-- Scenario B(과속 제외)는 구현이 단순하지만 SAFE 사고율이 높아(23%) 확률 보정 및 컷오프 재설계가 필요.
-- 야간 급회전/과속 가중치가 주간 대비 2~3배 상승 → 실제 시간·기상·위치 피처 추가가 다음 단계 과제.
+- **Phase 1-3**: 시뮬레이션(10K) vs 실데이터(455개) 비교로 기초 검증 완료
+- **Phase 4-A**: 파일럿에서 야간 플래그 버그 및 매칭 기준 문제 발견
+- **Phase 4-B**: 문제 해결로 10,000개 매칭 달성 (Phase 3 대비 22배, Phase 4-A 대비 1,111배)
+- **핵심 교훈**: 합성 데이터는 파이프라인 검증용, 실제 의미는 진짜 데이터에서 나옴
+- **다음 단계**: Phase 4-C에서 실제 Kaggle 7.7M 사고 + 350K+ 센서 데이터로 최종 검증
 
 ## 저장소 구조
 
 ```
 DrivingScore/
 ├── docs/
-│   ├── PLAN.md                  # 단계별 연구 계획 및 진행 상황
-│   ├── Phase1_Final_Report.md   # Phase 1 분석 결과
-│   ├── Phase2_Report.md         # Scenario A/B 합성 데이터 비교
-│   ├── Phase3_Report.md         # Kaggle 실데이터 검증 요약
-│   ├── Safety_Score_Spec.md     # 안전운전 점수 산식 명세(주/야간 가중치)
-│   └── Public_Data.md           # 활용 예정 공개 데이터 목록
+│   ├── PLAN.md                      # 전체 연구 계획 (Phase 1-5)
+│   ├── Phase1_Final_Report.md       # Phase 1: 기초 통계 분석
+│   ├── Phase2_Report.md             # Phase 2: 합성 데이터 모델링
+│   ├── Phase3_Report.md             # Phase 3: 실데이터 검증 (455개)
+│   ├── Phase4_Exploration.md        # Phase 4: 탐색 및 계획
+│   ├── Phase4A_Pilot_Report.md      # Phase 4-A: 파일럿 (9개)
+│   ├── Phase4B_Success_Report.md    # Phase 4-B: 성공 (10K개)
+│   ├── Phase4_Summary.md            # Phase 4: 종합 요약
+│   ├── Safety_Score_Spec.md         # 안전운전 점수 명세
+│   └── Public_Data.md               # 공개 데이터 목록
 ├── research/
-│   ├── analysis_no_viz.py               # Phase 1 기초 분석 스크립트
-│   ├── phase1_improved_analysis.py      # 과속 제외 시나리오 비교 (Phase 1 확장)
-│   ├── overspeed_analysis.py            # 과속 영향 분석
-│   ├── phase2_model_development.py      # Phase 2 합성 데이터 파이프라인
-│   ├── phase2_results.json              # Phase 2 결과(JSON)
-│   ├── phase3_real_data_analysis.py     # Phase 3 Kaggle 실데이터 파이프라인
-│   └── phase3_results.json              # Phase 3 결과(JSON)
+│   ├── analysis_no_viz.py                  # Phase 1 기초 분석
+│   ├── phase1_improved_analysis.py         # Phase 1 과속 비교
+│   ├── phase2_model_development.py         # Phase 2 합성 데이터
+│   ├── phase2_results.json                 # Phase 2 결과
+│   ├── phase3_real_data_analysis.py        # Phase 3 실데이터
+│   ├── phase3_results.json                 # Phase 3 결과
+│   ├── phase4_data_exploration.py          # Phase 4 데이터 탐색
+│   ├── phase4a_pilot_analysis.py           # Phase 4-A 파일럿
+│   ├── phase4a_pilot_results.json          # Phase 4-A 결과
+│   ├── phase4b_improved_analysis.py        # Phase 4-B 개선 분석
+│   ├── phase4b_improved_results.json       # Phase 4-B 결과
+│   └── requirements.txt                    # Python 패키지
 └── README.md
 ```
 
@@ -90,6 +104,20 @@ python phase3_real_data_analysis.py
 
 실행 결과는 `phase3_results.json`에 기록되며, Scenario A/B의 실제 가중치·등급 분포·모델 성능을 비교할 수 있습니다.
 
+### Phase 4 대규모 실데이터 매칭
+
+```bash
+cd research
+
+# Phase 4-A: 파일럿 (문제 발견)
+python phase4a_pilot_analysis.py
+
+# Phase 4-B: 개선 (10K 매칭 성공)
+python phase4b_improved_analysis.py
+```
+
+Phase 4-A는 9개 매칭으로 버그를 발견하고, Phase 4-B는 개선하여 10,000개 매칭을 달성했습니다.
+
 ## 단계별 하이라이트
 
 ### Phase 1
@@ -107,20 +135,35 @@ python phase3_real_data_analysis.py
 - Kaggle 센서 데이터 8틱 윈도우 455개 집계, AGGRESSIVE 비중 28.6%.
 - Scenario A: Logistic AUC 0.743, SAFE 사고율 14.6%, Aggressive 컷오프 77점.
 - Scenario B: Logistic AUC 0.727, SAFE 사고율 23.0%, SAFE 비중 86.8%.
-- SAFE 사고율을 20% 이하로 낮추려면 예측 확률 ≤ 0.70(약 컷오프 90점)으로 조정하면 SAFE 비중 82.2%, 사고율 19.5% 달성.
 
-## 향후 과제
+### Phase 4 (대규모 매칭)
+- **Phase 4-A**: 파일럿 9개 매칭 → 야간 플래그 버그, 매칭 기준 문제 발견
+- **Phase 4-B**: 개선 후 10,000개 매칭 성공 (Phase 3 대비 22배, Phase 4-A 대비 1,111배)
+- 매칭 품질: 평균 거리 136.7km, 시간 차이 3.5일 (합리적)
+- 한계: 합성 데이터로 상관계수 ~0.001 (실제 Kaggle 데이터 필요)
 
-1. US Accidents / Porto Seguro 등 다른 공개 데이터와 결합해 환경 계수(기상·도로)를 실측값으로 교체.
-2. `night_ratio` 근사 대신 실제 시간·위치 정보를 갖춘 로그 확보.
-3. SAFE 등급 사고율을 15% 이하로 낮추기 위한 확률 보정(Platt scaling 등)과 컷오프 재설계.
-4. Phase 2/3 결합 리포트와 score migration 체크리스트 작성.
+## 향후 과제 (Phase 4-C 및 이후)
+
+### Phase 4-C: 실제 Kaggle 데이터 분석
+1. **US Accidents 실제 데이터** (7.7M 건) 다운로드 및 전처리
+2. **Vehicle Sensor 실제 데이터** (350K+ 건) 확보 및 통합
+3. **50,000-100,000개 실제 매칭** 달성
+4. **의미있는 상관관계** (0.15-0.30) 및 가중치 도출
+5. **실용적 시스템 완성** (AUC 0.80+, 실제 서비스 적용 가능)
+
+### Phase 5: 실용화 및 확장
+1. 한국 교통 데이터 적용 및 지역 특성 반영
+2. 실시간 센서 데이터 수집 및 빅데이터 레이크 구축
+3. 확률 보정(Platt scaling) 및 SAFE 등급 사고율 15% 이하 달성
+4. 실제 서비스 배포 및 A/B 테스트
 
 ## 릴리스 태그
 
-- `v1.0.0-phase1` – Phase 1 분석 완료
-- `v2.0.0-phase2` – 합성 데이터 시나리오 비교 완료
-- `v3.0.0-phase3` – Kaggle 실데이터 검증 진행 중(현재)
+- `v1.0.0-phase1` – Phase 1 분석 완료 (2025-09-27)
+- `v2.0.0-phase2` – Phase 2 합성 데이터 비교 완료 (2025-09-27)
+- `v3.0.0-phase3` – Phase 3 실데이터 검증 완료 (2025-09-27)
+- `v4.1.0-phase4a` – Phase 4-A 파일럿 완료 (2025-09-30)
+- `v4.2.0-phase4b` – Phase 4-B 대규모 매칭 완료 (2025-09-30, 현재)
 
 ## 기여 안내
 

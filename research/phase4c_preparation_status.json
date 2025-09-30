@@ -1,0 +1,36 @@
+{
+  "phase": "Phase 4-C Real Data Analysis",
+  "status": "준비 단계 - pandas 및 실제 데이터 필요",
+  "requirements": {
+    "packages": [
+      "pandas",
+      "numpy",
+      "scikit-learn",
+      "scipy"
+    ],
+    "data": [
+      "US Accidents (7.7M records)",
+      "Vehicle Sensor (10K+ records)"
+    ],
+    "hardware": "32GB+ RAM 권장"
+  },
+  "expected_results": {
+    "matched_samples": "50,000-100,000",
+    "correlations": {
+      "sudden_stop": "0.20-0.30",
+      "rapid_accel": "0.15-0.25",
+      "sharp_turn": "0.10-0.20",
+      "over_speeding": "0.05-0.15"
+    },
+    "auc": "0.75-0.85",
+    "p_value": "<0.0001"
+  },
+  "next_steps": [
+    "1. Kaggle 데이터 다운로드",
+    "2. pandas 및 필요 패키지 설치",
+    "3. 데이터 전처리 실행",
+    "4. 매칭 파이프라인 실행",
+    "5. 통계 분석 및 가중치 도출",
+    "6. 최종 보고서 작성"
+  ]
+}

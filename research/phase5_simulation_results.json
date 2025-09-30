@@ -1,0 +1,93 @@
+{
+  "phase": "Phase 5 - Dynamic Grading Simulation",
+  "timestamp": "2025-09-30T17:34:14.690711",
+  "scenarios": {
+    "standard": {
+      "n_users": 10000,
+      "mean_score": 40.82374715104004,
+      "std_score": 32.62883050608417,
+      "fixed_distribution": {
+        "SAFE": 0.1009,
+        "MODERATE": 0.1684,
+        "AGGRESSIVE": 0.7307
+      },
+      "best_method": "클러스터링 기반",
+      "adjusted_cutoffs": {
+        "aggressive": 20.392239523876164,
+        "safe": 60.53557615946221
+      },
+      "adjusted_distribution": {
+        "SAFE": 0.2974,
+        "MODERATE": 0.3875,
+        "AGGRESSIVE": 0.3151
+      }
+    },
+    "safe_population": {
+      "mean_score": 62.077888911084585,
+      "fixed_distribution": {
+        "SAFE": 0.2144,
+        "MODERATE": 0.3377,
+        "AGGRESSIVE": 0.4479
+      },
+      "adjusted_cutoffs": {
+        "aggressive": 67.0,
+        "safe": 78.0,
+        "details": {
+          "percentile": {
+            "aggressive": 67.0,
+            "safe": 78.0
+          },
+          "clustering": {
+            "aggressive": 51.18740218782669,
+            "safe": 83.25483195907981
+          },
+          "zscore": {
+            "aggressive": 67.0,
+            "safe": 78.0
+          }
+        }
+      },
+      "adjusted_distribution": {
+        "SAFE": 0.5328,
+        "MODERATE": 0.0682,
+        "AGGRESSIVE": 0.399
+      }
+    },
+    "risky_population": {
+      "mean_score": 25.052901269005986,
+      "fixed_distribution": {
+        "SAFE": 0.0511,
+        "MODERATE": 0.0858,
+        "AGGRESSIVE": 0.8631
+      },
+      "adjusted_cutoffs": {
+        "aggressive": 67.0,
+        "safe": 78.0,
+        "details": {
+          "percentile": {
+            "aggressive": 67.0,
+            "safe": 78.0
+          },
+          "clustering": {
+            "aggressive": 17.994564003929217,
+            "safe": 59.52630987904761
+          },
+          "zscore": {
+            "aggressive": 67.0,
+            "safe": 78.0
+          }
+        }
+      },
+      "adjusted_distribution": {
+        "SAFE": 0.133,
+        "MODERATE": 0.0152,
+        "AGGRESSIVE": 0.8518
+      }
+    }
+  },
+  "recommendations": [
+    "표준 집단: 앙상블 방법으로 동적 조정 권장",
+    "안전 집단: 컷오프 상향 조정 (SAFE 기준 높임)",
+    "위험 집단: 사용자 교육 강화, 컷오프는 최소 조정"
+  ]
+}
