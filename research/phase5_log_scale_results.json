@@ -1,0 +1,91 @@
+{
+  "linear": {
+    "method": "linear",
+    "cutoffs": {
+      "safe_cutoff": 77,
+      "aggressive_cutoff": 71
+    },
+    "grade_distribution": {
+      "SAFE": 0.9009333333333334,
+      "MODERATE": 0.0438,
+      "AGGRESSIVE": 0.055266666666666665
+    },
+    "grade_accident_rates": {
+      "SAFE": 0.32788219624093534,
+      "MODERATE": 0.832572298325723,
+      "AGGRESSIVE": 0.9227985524728589
+    },
+    "grade_counts": {
+      "SAFE": 13514,
+      "MODERATE": 657,
+      "AGGRESSIVE": 829
+    },
+    "auc": 0.7936,
+    "score_stats": {
+      "mean": 89.63,
+      "std": 9.46,
+      "min": 15.13,
+      "max": 100.0,
+      "median": 91.62
+    }
+  },
+  "log_scale": {
+    "method": "log_scale",
+    "cutoffs": {
+      "safe_cutoff": 69.43,
+      "aggressive_cutoff": 61.91
+    },
+    "grade_distribution": {
+      "SAFE": 0.6489333333333334,
+      "MODERATE": 0.25166666666666665,
+      "AGGRESSIVE": 0.0994
+    },
+    "grade_accident_rates": {
+      "SAFE": 0.20936922128621327,
+      "MODERATE": 0.6325827814569537,
+      "AGGRESSIVE": 0.8832997987927566
+    },
+    "grade_counts": {
+      "SAFE": 9734,
+      "MODERATE": 3775,
+      "AGGRESSIVE": 1491
+    },
+    "auc": 0.7936,
+    "score_stats": {
+      "mean": 76.33,
+      "std": 13.31,
+      "min": 46.57,
+      "max": 100.0,
+      "median": 73.13
+    }
+  },
+  "comparison": {
+    "distribution_change": {
+      "SAFE": -0.252,
+      "MODERATE": 0.20786666666666664,
+      "AGGRESSIVE": 0.04413333333333334
+    },
+    "auc_change": 0.0,
+    "score_range_change": {
+      "mean": -13.299999999999997,
+      "std": 3.8499999999999996
+    }
+  },
+  "metadata": {
+    "execution_date": "2025-10-01 15:14:07",
+    "n_trips": 15000,
+    "log_scale_params": {
+      "k": 12.0,
+      "min_score": 30
+    },
+    "target_distribution": {
+      "SAFE": 0.65,
+      "MODERATE": 0.25,
+      "AGGRESSIVE": 0.1
+    },
+    "industry_reference": {
+      "progressive_snapshot": "About 20% experience rate increase (2024)",
+      "pareto_principle": "80% of accidents from 20% high-risk drivers"
+    }
+  }
+}
