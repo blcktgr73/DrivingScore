@@ -1,0 +1,76 @@
+{
+  "execution_date": "2025-10-01 15:22:35",
+  "target_distribution": {
+    "SAFE": 0.65,
+    "MODERATE": 0.25,
+    "AGGRESSIVE": 0.1
+  },
+  "phase4c_linear_adjusted": {
+    "cutoffs": {
+      "safe_cutoff": 88.22,
+      "aggressive_cutoff": 77.09
+    },
+    "distribution": {
+      "SAFE": 0.6532,
+      "MODERATE": 0.2474,
+      "AGGRESSIVE": 0.0994
+    },
+    "accident_rates": {
+      "SAFE": 0.21187997550520515,
+      "MODERATE": 0.6332524925895985,
+      "AGGRESSIVE": 0.8832997987927566
+    },
+    "grade_counts": {
+      "SAFE": 9798,
+      "MODERATE": 3711,
+      "AGGRESSIVE": 1491
+    },
+    "auc": 0.7936,
+    "score_stats": {
+      "mean": 89.63,
+      "std": 9.46,
+      "min": 15.13,
+      "max": 100.0,
+      "median": 91.62,
+      "q25": 85.09,
+      "q75": 95.86
+    }
+  },
+  "phase5_log_scale": {
+    "cutoffs": {
+      "safe_cutoff": 69.43,
+      "aggressive_cutoff": 61.91
+    },
+    "distribution": {
+      "SAFE": 0.6489333333333334,
+      "MODERATE": 0.25166666666666665,
+      "AGGRESSIVE": 0.0994
+    },
+    "accident_rates": {
+      "SAFE": 0.20936922128621327,
+      "MODERATE": 0.6325827814569537,
+      "AGGRESSIVE": 0.8832997987927566
+    },
+    "grade_counts": {
+      "SAFE": 9734,
+      "MODERATE": 3775,
+      "AGGRESSIVE": 1491
+    },
+    "auc": 0.7936,
+    "score_stats": {
+      "mean": 76.33,
+      "std": 13.31,
+      "min": 46.57,
+      "max": 100.0,
+      "median": 73.13
+    }
+  },
+  "comparison": {
+    "safe_accident_rate_improvement": -0.2510754218991884,
+    "cutoff_difference": {
+      "safe": -18.789999999999992,
+      "aggressive": -15.180000000000007
+    },
+    "score_range_difference": -31.440000000000005
+  }
+}
