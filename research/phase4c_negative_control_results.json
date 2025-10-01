@@ -1,0 +1,25 @@
+{
+  "analysis_type": "Negative Control Test",
+  "execution_date": "2025-09-30 22:58:00",
+  "sample_size": 3223,
+  "scenario_a": {
+    "real_matching_auc": 0.4647,
+    "random_matching_auc": 0.5169,
+    "auc_difference": -0.0522,
+    "ci_lower": -0.0694,
+    "ci_upper": -0.0349,
+    "statistically_significant": false
+  },
+  "scenario_b": {
+    "real_matching_auc": 0.4711,
+    "random_matching_auc": 0.5178,
+    "auc_difference": -0.0466,
+    "ci_lower": -0.0639,
+    "ci_upper": -0.0294,
+    "statistically_significant": false
+  },
+  "conclusion": {
+    "methodology_valid": false,
+    "recommendation": "참고용으로만 활용"
+  }
+}

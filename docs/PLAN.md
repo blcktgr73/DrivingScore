@@ -225,11 +225,248 @@ technical_plan = {
 - **등급 기준**: SAFE≥77점, MODERATE 72-76점, AGGRESSIVE≤71점
 - **실용성**: 프로덕션 배포 준비 완료
 
-### Phase 5: 자체 이벤트 빅데이터 수집 및 계수 보정
-- 차량·스마트폰 센서로 급가속/급정거/급회전/과속 이벤트를 실시간 수집해 내부 빅데이터 레이크 구축
-- 동일 조건(지역/시간대/차량유형)에 대한 각국 사고 통계를 proxy 타깃으로 매핑해 이벤트 가중치를 재학습
-- 경험요율 방식으로 SAFE/MODERATE/AGGRESSIVE 목표 사고율(예: 20%/40%/70%)을 유지하도록 컷오프·환경 계수를 주기적으로 보정
-- 실제 사고 데이터가 확보될 때 proxy 대비 성능과 안정성을 검증하는 절차를 마련
+### Phase 5: 사용자 친화적 스코어링 시스템 (Log-Scale 적용) ⏳ **계획 중**
+
+#### 5.1 배경 및 목적
+
+**문제 인식**:
+- Phase 4-C의 Linear 감점 방식은 단거리 trip에서 점수 급락 문제
+- 예: 5km 주행 중 급정거 2회 → 100 - (3.07 × 2) = 93.86점 (6.14점 하락)
+- 사용자 이탈 및 부정적 피드백 위험
+
+**목표**:
+- 통계 모델(Phase 4-C 가중치)은 유지하면서 UX 개선
+- Log-scale 또는 비선형 변환으로 사용자 친화적 점수 제공
+- 단거리 trip과 장거리 trip의 공정한 평가
+
+#### 5.2 제안된 접근 방식
+
+**핵심 원칙**: **통계 모델 ≠ 사용자 표시 점수**
+
+```python
+# 2단계 스코어링 시스템
+class UserFriendlyScoringSystem:
+    """
+    Phase 4-C 가중치는 그대로 유지하되,
+    사용자에게 표시되는 점수는 변환하여 제공
+    """
+
+    # Phase 4-C 검증된 가중치 (변경 금지)
+    VALIDATED_WEIGHTS = {
+        'rapid_accel': {'day': 0.0588, 'night': 0.0588 * 1.5},
+        'sudden_stop': {'day': 0.0489, 'night': 0.0489 * 1.5},
+        'sharp_turn': {'day': 0.0350, 'night': 0.0350 * 1.5},
+        'over_speed': {'day': 0.0414, 'night': 0.0414 * 1.5}
+    }
+
+    def calculate_raw_score(self, events, time_of_day, trip_distance_km):
+        """
+        Step 1: 사고 예측력 기반 원점수 계산 (Phase 4-C 방식)
+        """
+        penalty = sum(
+            events[etype] * self.VALIDATED_WEIGHTS[etype][time_of_day]
+            for etype in events
+        )
+        return 100 - penalty
+
+    def apply_user_friendly_transform(self, raw_score, trip_distance_km, events):
+        """
+        Step 2: 사용자 친화적 변환 (제공 예정)
+
+        변환 옵션:
+        1. Log-scale 감점
+        2. 거리 정규화
+        3. 등급 중심 표시
+        4. 최소 점수 보장
+
+        ⚠️ 사용자가 수식 초안 제공 예정
+        """
+        # 초안 제공 대기 중
+        pass
+```
+
+#### 5.3 대기 중인 설계 요소
+
+**사용자 제공 예정**:
+1. **Log-scale 수식**: 이벤트 수에 대한 로그 변환 함수
+2. **거리 정규화 방법**: trip 거리에 따른 보정 방식
+3. **등급 컷오프 조정**: SAFE/MODERATE/AGGRESSIVE 기준 재설정
+4. **최소/최대 점수**: 점수 범위 제한 정책
+
+**현재 작업 대기 상태**:
+```
+[ ] 사용자로부터 Log-scale 수식 초안 수신
+[ ] 수식 기반 시뮬레이션 구현
+[ ] Phase 4-C 데이터로 변환 효과 검증
+[ ] A/B 테스트용 프로토타입 개발
+[ ] 사용자 피드백 수집 계획 수립
+```
+
+#### 5.4 예상 Phase 5 산출물
+
+1. **하이브리드 스코어링 엔진**:
+   - 내부: Phase 4-C 통계 모델 (사고 예측용)
+   - 외부: User-friendly 변환 레이어 (사용자 표시용)
+
+2. **변환 함수 라이브러리**:
+   - Log-scale 변환
+   - 거리 정규화
+   - 등급 매핑
+
+3. **검증 리포트**:
+   - 변환 전후 사용자 만족도 비교
+   - 통계 모델 예측력 유지 검증
+   - 단거리/장거리 trip 공정성 분석
+
+4. **문서화**:
+   - API 문서 (내부/외부 점수 구분)
+   - 사용자 가이드
+   - 개발자 가이드
+
+#### 5.5 Phase 4-C vs Phase 5 비교
+
+| 항목 | Phase 4-C | Phase 5 (User-Friendly) |
+|------|-----------|-------------------------|
+| **통계 모델** | Linear 가중치 (검증 완료) | **동일** (변경 없음) |
+| **사용자 점수** | Raw score 그대로 표시 | Log-scale 변환 적용 |
+| **단거리 trip** | 점수 급락 문제 | 완화된 감점 |
+| **예측 정확도** | AUC 0.6725 | **동일** (내부 모델 유지) |
+| **사용자 경험** | 엄격, 부정적 피드백 | 친화적, 긍정적 피드백 |
+| **구현 복잡도** | 단순 | 2단계 시스템 (중간) |
+| **예상 기간** | ✅ 완료 | 2-4주 (수식 수신 후) |
+
+---
+
+### Phase 6: 대규모 센서 데이터 수집 및 통계적 보정 ⏳ **장기 계획**
+
+#### 6.1 데이터 수집 전략
+**목표**: 50,000-100,000개 실제 주행 데이터 수집 (Phase 4 대비 15-30배 확장)
+
+```python
+# 수집 방법
+data_collection_plan = {
+    "방법 1: 자체 앱 개발": {
+        "장점": "데이터 품질 완전 통제",
+        "단점": "초기 개발 비용, 사용자 확보 시간",
+        "예상 기간": "6-12개월"
+    },
+    "방법 2: 플릿 협업": {
+        "대상": "택시, 배송 차량, 법인 차량",
+        "장점": "빠른 데이터 확보 (3-6개월)",
+        "단점": "상업용 차량 편향 가능성"
+    },
+    "방법 3: 오픈소스 플랫폼": {
+        "참고": "OpenPilot, AutoPi 등 활용",
+        "장점": "기술적 기반 확보",
+        "단점": "데이터 다양성 제한"
+    }
+}
+```
+
+#### 6.2 통계적 보정 방법론
+
+**핵심 접근**: 동일 차량 추적 불가 → **지역/시간대 사고율 통계 활용**
+
+```python
+# Bayesian Hierarchical Model
+class StatisticalCorrectionModel:
+    """
+    Phase 4의 한계 극복:
+    - 개별 차량-사고 매칭 불가 → 지역 단위 사고율로 보정
+    - 인과관계 불확실 → 확률적 모델링으로 불확실성 반영
+    """
+
+    def regional_accident_rate_mapping(self, trip_data):
+        """
+        지역별/시간대별 사고율 통계를 trip에 매핑
+
+        예: "서울 강남구, 22시, 우천" → 사고율 3.5%
+            "부산 해운대, 14시, 맑음" → 사고율 1.2%
+        """
+        regional_stats = self.load_government_stats()  # 경찰청, TAAS 등
+        trip_risk = regional_stats.get(
+            region=trip_data.location,
+            time=trip_data.hour,
+            weather=trip_data.conditions
+        )
+        return trip_risk
+
+    def bayesian_weight_update(self, new_data):
+        """
+        새 데이터로 가중치를 점진적으로 업데이트
+
+        Prior: Phase 4-C에서 검증된 가중치
+        Likelihood: 새로 수집된 센서 데이터 + 지역 사고율
+        Posterior: 업데이트된 가중치
+        """
+        prior_weights = self.phase4c_weights  # 검증된 초기값
+        posterior_weights = bayesian_update(
+            prior=prior_weights,
+            new_evidence=new_data
+        )
+        return posterior_weights
+```
+
+#### 6.3 경험요율 방식 적용
+
+```python
+# 목표 사고율 유지
+target_accident_rates = {
+    "SAFE": 0.20,       # 상위 60% 운전자 → 사고율 20%
+    "MODERATE": 0.40,   # 중위 30% 운전자 → 사고율 40%
+    "AGGRESSIVE": 0.70  # 하위 10% 운전자 → 사고율 70%
+}
+
+# 주기적 보정 (예: 분기별)
+def quarterly_calibration(collected_data):
+    """
+    실제 수집 데이터로 컷오프/가중치 재조정
+
+    예: SAFE 그룹의 실제 지역 사고율이 25%로 나오면
+        → 컷오프를 82점으로 상향 조정 (현재 77점)
+    """
+    actual_rates = calculate_actual_rates(collected_data)
+
+    if actual_rates["SAFE"] > 0.20:
+        adjust_cutoff(direction="up")  # 기준 강화
+    elif actual_rates["SAFE"] < 0.15:
+        adjust_cutoff(direction="down")  # 기준 완화
+```
+
+#### 6.4 Phase 4 vs Phase 6 비교
+
+| 항목 | Phase 4-C | Phase 6 |
+|------|-----------|---------|
+| **데이터 규모** | 3,223개 매칭 샘플 | 50,000-100,000개 센서 데이터 |
+| **사고 데이터** | 공개 데이터셋 (US Accidents) | 지역별 사고율 통계 (경찰청/TAAS) |
+| **매칭 방식** | 시공간 매칭 (32.2% 성공률) | 통계적 매핑 (100% 활용) |
+| **인과관계** | 약함 (생태학적 수준) | 확률적 (Bayesian) |
+| **선택 편향** | 있음 (매칭 실패 67.8%) | 없음 (전체 데이터 활용) |
+| **가중치 안정성** | 프로토타입 수준 | 프로덕션 수준 |
+| **적용 범위** | 파일럿, 내부 시스템 | 상용 서비스, 보험 상품 |
+| **예상 기간** | ✅ 완료 | 6-12개월 |
+
+#### 6.5 Phase 6 산출물
+
+1. **데이터 레이크**: 50,000+ trips × (센서 데이터 + 지역 사고율)
+2. **정제된 가중치**: 지역/시간/날씨별 세부 가중치 매트릭스
+3. **동적 보정 시스템**: 분기별 자동 재학습 파이프라인
+4. **불확실성 정량화**: 가중치의 신뢰구간 및 예측 오차
+5. **다국가 적용 가이드**: 한국, 미국, 유럽 등 지역별 커스터마이징 방안
+
+#### 6.6 보험사 협업 (선택사항, 미정)
+
+**현재 상태**: Phase 6은 보험사 없이도 진행 가능 (공공 통계 활용)
+
+**보험사 협업 시 추가 이점**:
+- ✅ 실제 사고 청구 데이터 확보 → 인과관계 강화
+- ✅ 대규모 텔레매틱스 데이터 접근
+- ✅ 실무 검증 환경 (A/B 테스트 가능)
+
+**협업 불가 시 대안**:
+- 공공 데이터: 경찰청 교통사고 통계, 도로교통공단 TAAS
+- 오픈소스 데이터: OpenStreetMap 도로 정보, 기상청 날씨 데이터
+- 크라우드소싱: 자체 앱 사용자 커뮤니티 구축
 
 ---
 

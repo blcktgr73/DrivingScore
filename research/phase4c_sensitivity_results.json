@@ -1,0 +1,167 @@
+{
+  "analysis_type": "Sensitivity Analysis",
+  "execution_date": "2025-09-30 22:46:52",
+  "distance_analysis": {
+    "criteria": [
+      50,
+      100,
+      150,
+      200,
+      250,
+      300
+    ],
+    "results": [
+      {
+        "distance": 50,
+        "matched_count": 1610,
+        "match_rate": 0.161,
+        "scenario_a": {
+          "auc": 0.5593
+        },
+        "scenario_b": {
+          "auc": 0.5518
+        }
+      },
+      {
+        "distance": 100,
+        "matched_count": 2276,
+        "match_rate": 0.22768838354206833,
+        "scenario_a": {
+          "auc": 0.5934
+        },
+        "scenario_b": {
+          "auc": 0.5869
+        }
+      },
+      {
+        "distance": 150,
+        "matched_count": 2788,
+        "match_rate": 0.27886018001858925,
+        "scenario_a": {
+          "auc": 0.6252
+        },
+        "scenario_b": {
+          "auc": 0.6197
+        }
+      },
+      {
+        "distance": 200,
+        "matched_count": 3220,
+        "match_rate": 0.322,
+        "scenario_a": {
+          "auc": 0.6079
+        },
+        "scenario_b": {
+          "auc": 0.6019
+        }
+      },
+      {
+        "distance": 250,
+        "matched_count": 3600,
+        "match_rate": 0.36000694437746616,
+        "scenario_a": {
+          "auc": 0.5862
+        },
+        "scenario_b": {
+          "auc": 0.5795
+        }
+      },
+      {
+        "distance": 300,
+        "matched_count": 3943,
+        "match_rate": 0.39436784858809165,
+        "scenario_a": {
+          "auc": 0.5646
+        },
+        "scenario_b": {
+          "auc": 0.5572
+        }
+      }
+    ],
+    "std_scenario_a": 0.023,
+    "std_scenario_b": 0.0237
+  },
+  "time_analysis": {
+    "criteria": [
+      3,
+      5,
+      7,
+      10,
+      14
+    ],
+    "results": [
+      {
+        "time_days": 3,
+        "matched_count": 2107,
+        "match_rate": 0.21079848196796863,
+        "scenario_a": {
+          "auc": 0.59
+        },
+        "scenario_b": {
+          "auc": 0.5834
+        }
+      },
+      {
+        "time_days": 5,
+        "matched_count": 2721,
+        "match_rate": 0.2721396700225823,
+        "scenario_a": {
+          "auc": 0.6281
+        },
+        "scenario_b": {
+          "auc": 0.6226
+        }
+      },
+      {
+        "time_days": 7,
+        "matched_count": 3220,
+        "match_rate": 0.322,
+        "scenario_a": {
+          "auc": 0.6079
+        },
+        "scenario_b": {
+          "auc": 0.6019
+        }
+      },
+      {
+        "time_days": 10,
+        "matched_count": 3848,
+        "match_rate": 0.3848636122056747,
+        "scenario_a": {
+          "auc": 0.5689
+        },
+        "scenario_b": {
+          "auc": 0.5617
+        }
+      },
+      {
+        "time_days": 14,
+        "matched_count": 4553,
+        "match_rate": 0.45537676708413666,
+        "scenario_a": {
+          "auc": 0.5169
+        },
+        "scenario_b": {
+          "auc": 0.5081
+        }
+      }
+    ],
+    "std_scenario_a": 0.0381,
+    "std_scenario_b": 0.0393
+  },
+  "optimal_criteria": {
+    "distance_km": 150,
+    "time_days": 5,
+    "matched_count": 2356,
+    "avg_auc": 0.6391
+  },
+  "phase4c_evaluation": {
+    "distance_km": 200,
+    "time_days": 7,
+    "matched_count": 3220,
+    "auc_a": 0.6079,
+    "auc_b": 0.6019,
+    "status": "안정적"
+  },
+  "conclusion": "매칭 기준 변화에 안정적 → 방법론 타당"
+}

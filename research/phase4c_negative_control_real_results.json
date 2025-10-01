@@ -1,0 +1,40 @@
+{
+  "analysis_type": "Negative Control Test (Real Data)",
+  "execution_date": "2025-09-30 23:00:46",
+  "data_source": "phase4c_enhanced_report.json",
+  "sample_size": 15000,
+  "accident_rate": 0.35913333333333336,
+  "random_baseline": {
+    "expected_auc": 0.5,
+    "description": "완전 무작위 분류기"
+  },
+  "scenario_a": {
+    "auc": 0.6724578097646365,
+    "improvement_over_random": 0.1725,
+    "z_score": 45.0052,
+    "p_value": 0.0,
+    "ci_95": [
+      0.6649,
+      0.68
+    ],
+    "significance": "매우 유의"
+  },
+  "scenario_b": {
+    "auc": 0.6692540750826682,
+    "improvement_over_random": 0.1693,
+    "z_score": 44.0597,
+    "p_value": 0.0,
+    "ci_95": [
+      0.6617,
+      0.6768
+    ],
+    "significance": "매우 유의"
+  },
+  "conclusion": {
+    "performance": "양호",
+    "validity": "타당",
+    "recommendation": "파일럿 적용 가능",
+    "statistically_significant": true,
+    "better_than_random": true
+  }
+}

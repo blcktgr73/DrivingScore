@@ -1,0 +1,55 @@
+{
+  "analysis_type": "Holdout Validation",
+  "execution_date": "2025-09-30 22:48:18",
+  "data_split": {
+    "total_samples": 3223,
+    "train_samples": 2578,
+    "test_samples": 645,
+    "train_accident_rate": 0.1621,
+    "test_accident_rate": 0.1674
+  },
+  "scenario_a": {
+    "scenario": "Scenario A",
+    "features": [
+      "rapid_accel",
+      "sudden_stop",
+      "sharp_turn",
+      "over_speed"
+    ],
+    "train_auc": 0.3123,
+    "test_auc": 0.3319,
+    "auc_difference": 0.0196,
+    "weights": {
+      "rapid_accel": -0.2187,
+      "sudden_stop": -0.1772,
+      "sharp_turn": -0.253,
+      "over_speed": -0.2193
+    }
+  },
+  "scenario_b": {
+    "scenario": "Scenario B",
+    "features": [
+      "rapid_accel",
+      "sudden_stop",
+      "sharp_turn"
+    ],
+    "train_auc": 0.3262,
+    "test_auc": 0.3534,
+    "auc_difference": 0.0272,
+    "weights": {
+      "rapid_accel": -0.2713,
+      "sudden_stop": -0.2191,
+      "sharp_turn": -0.3048
+    }
+  },
+  "overfitting_assessment": {
+    "scenario_a": "✅ 일반화 우수 (과적합 없음)",
+    "scenario_b": "✅ 일반화 우수 (과적합 없음)",
+    "max_auc_difference": 0.0272
+  },
+  "conclusion": {
+    "predictive_power": "부족",
+    "generalization": "우수",
+    "phase4c_weights_reliable": false
+  }
+}
