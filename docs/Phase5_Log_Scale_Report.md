@@ -350,35 +350,123 @@ AGGRESSIVE: ≤61.9점
 3. ✅ SAFE 등급 신뢰성 대폭 향상 (사고율 32.8% → 20.9%)
 4. ✅ 사용자 친화적 점수 체계 (최소 46.57점 보장)
 
-### 2. 다음 단계 (Phase 6)
+### 2. 다음 단계: 2단계 스코어링 시스템
 
-**Phase 6-A: 파라미터 최적화**
-- `k` 값 조정 (현재 12.0)
-- `min_score` 최적값 탐색 (현재 30)
-- 실제 사용자 데이터로 검증
+**Phase 5 확장: Chunk 기반 누적 점수**
 
-**Phase 6-B: A/B 테스트**
-- Linear vs Log-scale 사용자 만족도 비교
-- 이탈률, 재방문율, 피드백 분석
-- 최종 배포 전략 수립
+#### 2.1 시스템 아키텍처
 
-**Phase 6-C: 대규모 센서 데이터 수집**
-- 50,000+ trips 수집
+```
+┌─────────────────────────────────────────────────────┐
+│  Level 1: Individual Trip Score (Log-scale)        │
+│  - 모든 trip에 즉시 적용                            │
+│  - Daily View에서 시각화 (숫자 비표시)             │
+│  - 즉각적인 피드백 제공                             │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│  Level 2: 500km Chunk Score                        │
+│  - 500km 구간 내 모든 이벤트 합산 후 Log-scale    │
+│  - 하나의 큰 trip처럼 계산                         │
+│  - 장거리 운전 패턴 반영                            │
+└─────────────────────────────────────────────────────┘
+                        ↓
+┌─────────────────────────────────────────────────────┐
+│  Level 3: Cumulative Score (가중 평균)             │
+│  - 최근 6개 chunk (최대 3,000km)                   │
+│  - 가중치: [0.25, 0.20, 0.18, 0.15, 0.12, 0.10]   │
+│  - Weekly/장기 view에 표시                         │
+└─────────────────────────────────────────────────────┘
+```
+
+#### 2.2 점수 계산 로직
+
+**Level 1: Trip Score (현재 Phase 5)**
+```python
+trip_score = 100 - k * log(1 + weighted_events)
+# 개별 여행 직후 계산, 시각화만 표시
+```
+
+**Level 2: 500km Chunk Score (신규)**
+```python
+# 500km 구간 내 모든 trip의 이벤트 합산
+chunk_total_events = {
+    'rapid_accel': sum(trip.events.rapid_accel for trip in chunk_trips),
+    'sudden_stop': sum(trip.events.sudden_stop for trip in chunk_trips),
+    'sharp_turn': sum(trip.events.sharp_turn for trip in chunk_trips),
+    'over_speed': sum(trip.events.over_speed for trip in chunk_trips)
+}
+
+# 야간/주간 비율 고려한 가중치 적용
+chunk_weighted_sum = calculate_weighted_sum(chunk_total_events, day_night_ratio)
+
+# Log-scale 적용 (하나의 큰 trip처럼)
+chunk_score = 100 - k * log(1 + chunk_weighted_sum)
+```
+
+**Level 3: Cumulative Score (가중 평균)**
+```python
+# 최근 6개 chunk (최신 → 과거 순서)
+recent_chunks = [chunk_6, chunk_5, chunk_4, chunk_3, chunk_2, chunk_1]
+weights = [0.25, 0.20, 0.18, 0.15, 0.12, 0.10]
+
+cumulative_score = sum(chunk * weight for chunk, weight in zip(recent_chunks, weights))
+```
+
+#### 2.3 사용자 경험 설계
+
+**Daily View (개별 Trip)**:
+- ✅ 점수 숫자 비표시
+- ✅ 시각화만 사용:
+  - 색상 코드: 초록(SAFE) / 노랑(MODERATE) / 빨강(AGGRESSIVE)
+  - 그래프: 이벤트별 발생 횟수
+  - 아이콘: 운전 스타일 요약
+
+**Weekly/Monthly View (Cumulative)**:
+- ✅ 누적 점수 숫자 표시
+- ✅ 최근 6개 chunk 트렌드
+- ✅ 개선/악화 방향 안내
+
+**사용자 시나리오별 적용**:
+
+| 사용자 유형 | 일일 주행 | 500km 도달 | 주요 활용 점수 |
+|------------|----------|-----------|---------------|
+| 단거리 출퇴근 | 10km | 50일 | Trip (Daily) |
+| 일반 운전자 | 30km | 17일 | Chunk (Weekly) |
+| 장거리 운전 | 100km | 5일 | Cumulative (Monthly) |
+
+#### 2.4 구현 우선순위
+
+**Phase 5 완료** ✅:
+- Individual Trip Log-scale 점수
+- 보험 업계 표준 분포 (65/25/10)
+- Phase 4-C 대비 공정 비교
+
+**Phase 5 확장 (계획 중)**:
+1. 500km Chunk 집계 시스템
+2. 가중 평균 Cumulative Score
+3. Daily/Weekly View 시각화 전략
+4. 사용자 피드백 수집 및 파라미터 튜닝
+
+**Phase 6: 대규모 데이터 수집**
+- 50,000+ trips 실제 수집
 - Bayesian 통계 보정
-- 지역/시간대별 세부 가중치 도출
+- 지역/시간대별 세부 가중치
 
 ### 3. 배포 전략
 
 **단계적 롤아웃**:
-1. **파일럿**: 1,000명 사용자 대상 Log-scale 테스트 (1개월)
-2. **A/B 테스트**: Linear vs Log-scale 비교 (2개월)
-3. **전면 배포**: Phase 5 Log-scale 적용 (평가 후)
+1. **Phase 5 Core**: Trip Log-scale 배포 (완료)
+2. **Phase 5 Extended**: Chunk + Cumulative 추가 (계획)
+3. **A/B 테스트**: 사용자 반응 분석
+4. **전면 배포**: 최종 시스템 적용
 
 **사용자 커뮤니케이션**:
 ```
 "새로운 점수 체계를 도입했습니다!
-- 단거리 주행에서 더 공정한 평가
-- 개선 방향을 명확히 안내
+- 모든 여행을 공정하게 평가 (단거리/장거리)
+- 일일 시각화로 즉각적인 피드백
+- 주간/월간 점수로 장기 패턴 추적
 - 보험 업계 표준 기준 적용"
 ```
 
