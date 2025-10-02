@@ -441,13 +441,107 @@ class StatisticalCorrectionModel:
         return posterior_weights
 ```
 
-#### 6.3 경험요율 방식 적용
+#### 6.3 Phase 5 확장: 500km Chunk + 누적 점수 (우선 순위)
+
+**배경**: Phase 5에서 설계한 2단계 스코어링 시스템 구현
+
+```python
+# Level 2: 500km Chunk Score
+class ChunkScoreCalculator:
+    """
+    500km 구간 내 모든 trip 이벤트 합산 후 Log-scale 적용
+    """
+
+    def calculate_chunk_score(self, trips_in_chunk):
+        """
+        500km 구간 내 모든 trip의 이벤트 합산
+
+        Args:
+            trips_in_chunk: 500km 누적된 trip 리스트
+
+        Returns:
+            chunk_score: 100점 기준 점수
+        """
+        # 모든 trip 이벤트 합산
+        total_events = {
+            'rapid_accel': sum(t.events.rapid_accel for t in trips_in_chunk),
+            'sudden_stop': sum(t.events.sudden_stop for t in trips_in_chunk),
+            'sharp_turn': sum(t.events.sharp_turn for t in trips_in_chunk),
+            'over_speed': sum(t.events.over_speed for t in trips_in_chunk)
+        }
+
+        # 야간/주간 비율 계산
+        total_distance = sum(t.distance for t in trips_in_chunk)
+        night_distance = sum(t.distance for t in trips_in_chunk if t.is_night)
+        night_ratio = night_distance / total_distance
+
+        # 가중 합계 (야간 비율 반영)
+        weighted_sum = 0
+        for event_type, count in total_events.items():
+            base_weight = WEIGHTS[event_type] * 100
+            # 야간 비율에 따라 가중치 조정
+            adjusted_weight = base_weight * (1 + night_ratio * 0.5)
+            weighted_sum += count * adjusted_weight
+
+        # Log-scale 적용
+        k = 12.0
+        penalty = k * log(1 + weighted_sum)
+        chunk_score = max(30, 100 - penalty)
+
+        return chunk_score
+
+
+# Level 3: Cumulative Score (가중 평균)
+class CumulativeScoreCalculator:
+    """
+    최근 6개 chunk의 가중 평균
+    """
+
+    WEIGHTS = [0.25, 0.20, 0.18, 0.15, 0.12, 0.10]  # 최신 → 과거
+
+    def calculate_cumulative_score(self, recent_chunks):
+        """
+        최근 6개 chunk 가중 평균
+
+        Args:
+            recent_chunks: 최근 6개 chunk 점수 (최신순)
+
+        Returns:
+            cumulative_score: 가중 평균 점수
+        """
+        if len(recent_chunks) == 0:
+            return None
+
+        # 6개 미만이면 사용 가능한 만큼만
+        available_chunks = recent_chunks[:6]
+        available_weights = self.WEIGHTS[:len(available_chunks)]
+
+        # 가중치 정규화
+        total_weight = sum(available_weights)
+        normalized_weights = [w / total_weight for w in available_weights]
+
+        # 가중 평균
+        cumulative_score = sum(
+            chunk * weight
+            for chunk, weight in zip(available_chunks, normalized_weights)
+        )
+
+        return round(cumulative_score, 2)
+```
+
+**구현 우선순위**:
+1. **Phase 6-A**: 500km Chunk 시스템 구현 및 시뮬레이션
+2. **Phase 6-B**: 가중 평균 Cumulative Score 검증
+3. **Phase 6-C**: Daily/Weekly View 시각화 프로토타입
+4. **Phase 6-D**: A/B 테스트 및 사용자 피드백
+
+#### 6.4 경험요율 방식 적용
 
 ```python
 # 목표 사고율 유지
 target_accident_rates = {
-    "SAFE": 0.20,       # 상위 60% 운전자 → 사고율 20%
-    "MODERATE": 0.40,   # 중위 30% 운전자 → 사고율 40%
+    "SAFE": 0.20,       # 상위 65% 운전자 → 사고율 20%
+    "MODERATE": 0.40,   # 중위 25% 운전자 → 사고율 40%
     "AGGRESSIVE": 0.70  # 하위 10% 운전자 → 사고율 70%
 }
 
@@ -457,7 +551,7 @@ def quarterly_calibration(collected_data):
     실제 수집 데이터로 컷오프/가중치 재조정
 
     예: SAFE 그룹의 실제 지역 사고율이 25%로 나오면
-        → 컷오프를 82점으로 상향 조정 (현재 77점)
+        → 컷오프를 상향 조정
     """
     actual_rates = calculate_actual_rates(collected_data)
 
@@ -467,28 +561,40 @@ def quarterly_calibration(collected_data):
         adjust_cutoff(direction="down")  # 기준 완화
 ```
 
-#### 6.4 Phase 4 vs Phase 6 비교
+#### 6.5 Phase 4-C vs Phase 5 vs Phase 6 비교
 
-| 항목 | Phase 4-C | Phase 6 |
-|------|-----------|---------|
-| **데이터 규모** | 3,223개 매칭 샘플 | 50,000-100,000개 센서 데이터 |
-| **사고 데이터** | 공개 데이터셋 (US Accidents) | 지역별 사고율 통계 (경찰청/TAAS) |
-| **매칭 방식** | 시공간 매칭 (32.2% 성공률) | 통계적 매핑 (100% 활용) |
-| **인과관계** | 약함 (생태학적 수준) | 확률적 (Bayesian) |
-| **선택 편향** | 있음 (매칭 실패 67.8%) | 없음 (전체 데이터 활용) |
-| **가중치 안정성** | 프로토타입 수준 | 프로덕션 수준 |
-| **적용 범위** | 파일럿, 내부 시스템 | 상용 서비스, 보험 상품 |
-| **예상 기간** | ✅ 완료 | 6-12개월 |
+| 항목 | Phase 4-C | Phase 5 | Phase 6 |
+|------|-----------|---------|---------|
+| **스코어링** | Linear 감점 | Log-scale (Trip) | Log-scale + Chunk + Cumulative |
+| **등급 분포** | 재조정 65/25/10 | 65/25/10 | 65/25/10 유지 |
+| **SAFE 컷오프** | 88.2점 | 69.4점 | 동적 조정 |
+| **데이터 규모** | 15,000개 매칭 | 15,000개 시뮬레이션 | 50,000+ 실제 수집 |
+| **사고 데이터** | US Accidents | 시뮬레이션 | 지역별 통계 (경찰청/TAAS) |
+| **매칭 방식** | 시공간 (75%) | N/A | 통계적 매핑 (100%) |
+| **가중치** | Phase 4-C 확정 | Phase 4-C 유지 | Bayesian 업데이트 |
+| **적용 범위** | 프로토타입 | 사용자 친화 UX | 상용 서비스 |
+| **상태** | ✅ 완료 | ✅ 완료 | ⏳ 계획 중 |
 
-#### 6.5 Phase 6 산출물
+#### 6.6 Phase 6 산출물
 
-1. **데이터 레이크**: 50,000+ trips × (센서 데이터 + 지역 사고율)
-2. **정제된 가중치**: 지역/시간/날씨별 세부 가중치 매트릭스
-3. **동적 보정 시스템**: 분기별 자동 재학습 파이프라인
-4. **불확실성 정량화**: 가중치의 신뢰구간 및 예측 오차
-5. **다국가 적용 가이드**: 한국, 미국, 유럽 등 지역별 커스터마이징 방안
+**Phase 6-A: Chunk 시스템** (우선)
+1. 500km Chunk 집계 엔진
+2. 야간 비율 가중치 적용 로직
+3. Chunk 점수 시뮬레이션 및 검증
 
-#### 6.6 보험사 협업 (선택사항, 미정)
+**Phase 6-B: Cumulative Score** (우선)
+1. 가중 평균 계산기 (6개 chunk)
+2. Weekly/Monthly View 프로토타입
+3. A/B 테스트 프레임워크
+
+**Phase 6-C: 대규모 데이터 수집**
+1. **데이터 레이크**: 50,000+ trips (센서 + 지역 사고율)
+2. **정제된 가중치**: 지역/시간/날씨별 매트릭스
+3. **동적 보정 시스템**: 분기별 자동 재학습
+4. **불확실성 정량화**: 가중치 신뢰구간
+5. **다국가 가이드**: 한국, 미국, 유럽 커스터마이징
+
+#### 6.7 보험사 협업 (선택사항, 미정)
 
 **현재 상태**: Phase 6은 보험사 없이도 진행 가능 (공공 통계 활용)
 

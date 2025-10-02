@@ -1,7 +1,7 @@
 ﻿# DrivingScore: 공개 데이터 기반 안전운전 점수 연구
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-Phase%204B%20completed-green.svg)
+![Status](https://img.shields.io/badge/status-Phase%205%20completed-green.svg)
 ![Python](https://img.shields.io/badge/python-3.13+-blue.svg)
 
 > 공개/시뮬레이션 데이터를 분석해 신뢰할 수 있는 안전운전 점수를 구축하는 연구 프로젝트입니다.
@@ -26,28 +26,33 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 | Phase 3 ✅ | 2025-09-27 | Kaggle 센서 데이터 455개 검증, 과속 포함 시 AUC +0.03 |
 | Phase 4-A ✅ | 2025-09-30 | 파일럿: 매칭 파이프라인 검증, 9개 매칭으로 문제점 발견 |
 | Phase 4-B ✅ | 2025-09-30 | 개선: 10,000개 매칭 달성, Phase 3 대비 22배 증가 |
-| Phase 4-C ⏳ | 계획 중 | 실제 Kaggle 데이터 100K+ 분석, 최종 시스템 완성 |
+| Phase 4-C ✅ | 2025-09-30 | 15,000개 실데이터 매칭, AUC 0.6725 달성, 최종 가중치 확정 |
+| Phase 5 ✅ | 2025-10-01 | Log-scale 스코어링, 보험 업계 표준 (65/25/10) 달성, 2단계 시스템 설계 |
+| Phase 6 ⏳ | 계획 중 | 대규모 센서 데이터 수집 (50K+), Bayesian 통계 보정 |
 
 **핵심 인사이트**
-- **Phase 1-3**: 시뮬레이션(10K) vs 실데이터(455개) 비교로 기초 검증 완료
-- **Phase 4-A**: 파일럿에서 야간 플래그 버그 및 매칭 기준 문제 발견
-- **Phase 4-B**: 문제 해결로 10,000개 매칭 달성 (Phase 3 대비 22배, Phase 4-A 대비 1,111배)
-- **핵심 교훈**: 합성 데이터는 파이프라인 검증용, 실제 의미는 진짜 데이터에서 나옴
-- **다음 단계**: Phase 4-C에서 실제 Kaggle 7.7M 사고 + 350K+ 센서 데이터로 최종 검증
+- **Phase 1-3**: 시뮬레이션(10K) → 실데이터(455개) 검증 완료
+- **Phase 4-A/B**: 매칭 파이프라인 개선, 10,000개 달성
+- **Phase 4-C**: 15,000개 실데이터 분석, AUC 0.6725, 과학적 타당성 검증
+- **Phase 5**: Log-scale 적용으로 사용자 친화성↑, 예측력 유지 (AUC 0.7936)
+- **핵심 성과**: 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%) 달성
+- **다음 단계**: 500km Chunk + 가중 평균 누적 점수, 50K+ 실제 센서 데이터 수집
 
 ## 저장소 구조
 
 ```
 DrivingScore/
 ├── docs/
-│   ├── PLAN.md                      # 전체 연구 계획 (Phase 1-5)
+│   ├── PLAN.md                      # 전체 연구 계획 (Phase 1-6)
 │   ├── Phase1_Final_Report.md       # Phase 1: 기초 통계 분석
 │   ├── Phase2_Report.md             # Phase 2: 합성 데이터 모델링
 │   ├── Phase3_Report.md             # Phase 3: 실데이터 검증 (455개)
 │   ├── Phase4_Exploration.md        # Phase 4: 탐색 및 계획
 │   ├── Phase4A_Pilot_Report.md      # Phase 4-A: 파일럿 (9개)
 │   ├── Phase4B_Success_Report.md    # Phase 4-B: 성공 (10K개)
+│   ├── Phase4C_Final_Report.md      # Phase 4-C: 최종 시스템 (15K개)
 │   ├── Phase4_Summary.md            # Phase 4: 종합 요약
+│   ├── Phase5_Log_Scale_Report.md   # Phase 5: Log-scale 스코어링
 │   ├── Safety_Score_Spec.md         # 안전운전 점수 명세
 │   └── Public_Data.md               # 공개 데이터 목록
 ├── research/
@@ -62,6 +67,14 @@ DrivingScore/
 │   ├── phase4a_pilot_results.json          # Phase 4-A 결과
 │   ├── phase4b_improved_analysis.py        # Phase 4-B 개선 분석
 │   ├── phase4b_improved_results.json       # Phase 4-B 결과
+│   ├── phase4c_enhanced_report.json        # Phase 4-C 최종 결과
+│   ├── phase4c_sensitivity_analysis.py     # Phase 4-C 민감도 분석
+│   ├── phase4c_holdout_validation.py       # Phase 4-C 홀드아웃 검증
+│   ├── phase4c_negative_control_real_data.py # Phase 4-C 음성 대조 실험
+│   ├── phase5_log_scale_simulation.py      # Phase 5 Log-scale 시뮬레이션
+│   ├── phase5_log_scale_results.json       # Phase 5 결과
+│   ├── phase4c_phase5_fair_comparison.py   # Phase 4-C vs 5 공정 비교
+│   ├── phase4c_phase5_fair_comparison.json # 비교 결과
 │   └── requirements.txt                    # Python 패키지
 └── README.md
 ```
@@ -114,9 +127,28 @@ python phase4a_pilot_analysis.py
 
 # Phase 4-B: 개선 (10K 매칭 성공)
 python phase4b_improved_analysis.py
+
+# Phase 4-C: 검증 실험
+python phase4c_sensitivity_analysis.py
+python phase4c_holdout_validation.py
+python phase4c_negative_control_real_data.py
 ```
 
-Phase 4-A는 9개 매칭으로 버그를 발견하고, Phase 4-B는 개선하여 10,000개 매칭을 달성했습니다.
+Phase 4-C는 15,000개 매칭으로 최종 가중치를 확정하고, 3가지 검증 실험을 통해 과학적 타당성을 입증했습니다.
+
+### Phase 5 Log-scale 스코어링
+
+```bash
+cd research
+
+# Phase 5: Log-scale 시뮬레이션
+python phase5_log_scale_simulation.py
+
+# Phase 4-C vs Phase 5 공정 비교
+python phase4c_phase5_fair_comparison.py
+```
+
+Phase 5는 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%)를 달성하고, Linear 대비 사용자 친화적 점수 체계를 구현했습니다.
 
 ## 단계별 하이라이트
 
@@ -136,26 +168,39 @@ Phase 4-A는 9개 매칭으로 버그를 발견하고, Phase 4-B는 개선하여
 - Scenario A: Logistic AUC 0.743, SAFE 사고율 14.6%, Aggressive 컷오프 77점.
 - Scenario B: Logistic AUC 0.727, SAFE 사고율 23.0%, SAFE 비중 86.8%.
 
-### Phase 4 (대규모 매칭)
+### Phase 4 (대규모 매칭 및 검증)
 - **Phase 4-A**: 파일럿 9개 매칭 → 야간 플래그 버그, 매칭 기준 문제 발견
-- **Phase 4-B**: 개선 후 10,000개 매칭 성공 (Phase 3 대비 22배, Phase 4-A 대비 1,111배)
-- 매칭 품질: 평균 거리 136.7km, 시간 차이 3.5일 (합리적)
-- 한계: 합성 데이터로 상관계수 ~0.001 (실제 Kaggle 데이터 필요)
+- **Phase 4-B**: 개선 후 10,000개 매칭 성공 (Phase 3 대비 22배)
+- **Phase 4-C**: 15,000개 실데이터 매칭, AUC 0.6725 달성
+  - 3가지 검증 실험: 민감도 분석, 홀드아웃 검증, 음성 대조 실험
+  - 최종 가중치 확정: 급정거 4.89점, 급가속 5.88점, 급회전 3.50점, 과속 4.14점
+  - 등급 컷오프: SAFE ≥77점, MODERATE 72-76점, AGGRESSIVE ≤71점
+  - Precision 73.87% 달성, EPV 1,797 (권장값의 89배)
 
-## 향후 과제 (Phase 4-C 및 이후)
+### Phase 5 (Log-scale 스코어링)
+- **보험 업계 표준 달성**: SAFE 65%, MODERATE 25%, AGGRESSIVE 10%
+- **Log-scale 적용**: 사용자 친화적 점수 (k=12.0, min_score=30)
+- **예측력 유지**: AUC 0.7936 (Phase 4-C Linear 대비 동일)
+- **SAFE 사고율 개선**: 21.2% → 20.9% (Linear 재조정 대비)
+- **2단계 시스템 설계**:
+  1. Individual Trip Score (Log-scale, Daily View 시각화)
+  2. 500km Chunk Score (장거리 패턴 반영)
+  3. Cumulative Score (최근 6개 chunk 가중 평균, Weekly/Monthly View)
 
-### Phase 4-C: 실제 Kaggle 데이터 분석
-1. **US Accidents 실제 데이터** (7.7M 건) 다운로드 및 전처리
-2. **Vehicle Sensor 실제 데이터** (350K+ 건) 확보 및 통합
-3. **50,000-100,000개 실제 매칭** 달성
-4. **의미있는 상관관계** (0.15-0.30) 및 가중치 도출
-5. **실용적 시스템 완성** (AUC 0.80+, 실제 서비스 적용 가능)
+## 향후 과제 (Phase 6 및 이후)
 
-### Phase 5: 실용화 및 확장
-1. 한국 교통 데이터 적용 및 지역 특성 반영
-2. 실시간 센서 데이터 수집 및 빅데이터 레이크 구축
-3. 확률 보정(Platt scaling) 및 SAFE 등급 사고율 15% 이하 달성
-4. 실제 서비스 배포 및 A/B 테스트
+### Phase 6: 대규모 센서 데이터 수집 및 통계적 보정
+1. **50,000+ trips 실제 수집**
+   - 자체 앱, 플릿 협업, 오픈소스 플랫폼 활용
+2. **Bayesian 통계 보정**
+   - 지역별/시간대별 사고율 통계 매핑
+   - Phase 4-C 가중치를 Prior로 사용한 점진적 업데이트
+3. **경험요율 방식 적용**
+   - 분기별 자동 재학습 파이프라인
+   - 목표 사고율 유지 (SAFE 20%, MODERATE 40%, AGGRESSIVE 70%)
+4. **500km Chunk + 가중 평균 구현**
+   - Phase 5 확장: Level 2, 3 스코어링 시스템
+   - Daily/Weekly View 시각화 전략
 
 ## 릴리스 태그
 
@@ -163,7 +208,9 @@ Phase 4-A는 9개 매칭으로 버그를 발견하고, Phase 4-B는 개선하여
 - `v2.0.0-phase2` – Phase 2 합성 데이터 비교 완료 (2025-09-27)
 - `v3.0.0-phase3` – Phase 3 실데이터 검증 완료 (2025-09-27)
 - `v4.1.0-phase4a` – Phase 4-A 파일럿 완료 (2025-09-30)
-- `v4.2.0-phase4b` – Phase 4-B 대규모 매칭 완료 (2025-09-30, 현재)
+- `v4.2.0-phase4b` – Phase 4-B 대규모 매칭 완료 (2025-09-30)
+- `v1.0.0-phase4c` – Phase 4-C 최종 검증 완료 (2025-09-30)
+- `v1.0.0-phase5` – Phase 5 Log-scale 스코어링 완료 (2025-10-01, 현재)
 
 ## 기여 안내
 
