@@ -1,6 +1,6 @@
 {
   "phase": "Phase 4-C: 최종 대규모 시뮬레이션",
-  "execution_date": "2025-09-30 20:18:30",
+  "execution_date": "2025-10-10 15:21:47",
   "status": "완료",
   "data_summary": {
     "us_accidents": 500000,
@@ -8,10 +8,10 @@
     "matched_samples": 26888
   },
   "correlations": {
-    "rapid_accel": -0.005874251166424356,
-    "sudden_stop": 0.0042559683772287315,
-    "sharp_turn": -0.003169976844833228,
-    "over_speed": -0.004937312797584112,
+    "rapid_accel": -0.005874251166424502,
+    "sudden_stop": 0.004255968377230564,
+    "sharp_turn": -0.0031699768448334308,
+    "over_speed": -0.004937312797583184,
     "night_severity_increase": 0.7401422860299434
   },
   "scoring_system": {

@@ -1,0 +1,42 @@
+{
+  "phase4c_baseline": {
+    "accuracy": 0.8962666666666667,
+    "precision": 0.8014981273408239,
+    "recall": 0.9476014760147602,
+    "f1": 0.868447751099087,
+    "auc": 0.9748951151306747,
+    "confusion_matrix": {
+      "tp": 1284,
+      "fp": 318,
+      "tn": 2077,
+      "fn": 71
+    }
+  },
+  "phase4d_step1_class_weight": {
+    "accuracy": 0.7045333333333333,
+    "precision": 0.5503875968992248,
+    "recall": 0.9955719557195571,
+    "f1": 0.7088807146610615,
+    "auc": 0.98317497245953,
+    "confusion_matrix": {
+      "tp": 1349,
+      "fp": 1102,
+      "tn": 1293,
+      "fn": 6
+    }
+  },
+  "improvements": {
+    "recall_improvement_pct": 5.062305295950146,
+    "f1_improvement_pct": -18.373821135017188,
+    "precision_change_pct": -31.33014562051728,
+    "auc_change": 0.008279857328855278
+  },
+  "summary": {
+    "goal_recall": 0.25,
+    "achieved_recall": 0.9955719557195571,
+    "goal_f1": 0.35,
+    "achieved_f1": 0.7088807146610615,
+    "goal_precision": 0.6,
+    "achieved_precision": 0.5503875968992248
+  }
+}

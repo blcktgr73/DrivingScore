@@ -1,5 +1,5 @@
 {
-  "execution_date": "2025-09-30 13:06:16",
+  "execution_date": "2025-10-10 15:20:52",
   "phase": "Phase 4-B Improved",
   "data_summary": {
     "us_accidents_samples": 100000,
@@ -22,15 +22,15 @@
     ]
   },
   "matching_quality": {
-    "avg_distance_km": 136.7,
-    "avg_time_diff_hours": 83.4,
-    "night_match_rate": "51.3%"
+    "avg_distance_km": 137.6,
+    "avg_time_diff_hours": 84.3,
+    "night_match_rate": "51.9%"
   },
   "correlations": {
-    "rapid_accel": 0.001,
+    "rapid_accel": 0.004,
     "sudden_stop": 0,
-    "sharp_turn": 0.006,
-    "over_speeding": -0.002
+    "sharp_turn": 0,
+    "over_speeding": -0.008
   },
   "success_criteria": {
     "목표_매칭": 10000,

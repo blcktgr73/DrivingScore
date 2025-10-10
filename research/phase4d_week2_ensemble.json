@@ -1,0 +1,72 @@
+{
+  "scenario_a": {
+    "individual_models": {
+      "LogisticRegression": {
+        "threshold": 0.63,
+        "precision": 0.9500745156482862,
+        "recall": 0.940959409594096,
+        "f1": 0.9454949944382648,
+        "auc": 0.9902562996402406
+      },
+      "RandomForest": {
+        "threshold": 0.63,
+        "precision": 0.9451038575667656,
+        "recall": 0.9402214022140222,
+        "f1": 0.9426563078061413,
+        "auc": 0.9898879122402916
+      },
+      "GradientBoosting": {
+        "threshold": 0.77,
+        "precision": 0.9668721109399075,
+        "recall": 0.9261992619926199,
+        "f1": 0.9460987561251414,
+        "auc": 0.9902316480367308
+      }
+    },
+    "ensemble": {
+      "threshold": 0.68,
+      "precision": 0.9640397857689365,
+      "recall": 0.9298892988929889,
+      "f1": 0.946656649135988,
+      "auc": 0.9908969331864509
+    }
+  },
+  "scenario_b": {
+    "individual_models": {
+      "LogisticRegression": {
+        "threshold": 0.55,
+        "precision": 0.9133627019089574,
+        "recall": 0.9194382852919438,
+        "f1": 0.916390423572744,
+        "auc": 0.9816221373045452
+      },
+      "RandomForest": {
+        "threshold": 0.63,
+        "precision": 0.9405487804878049,
+        "recall": 0.9120473022912047,
+        "f1": 0.926078799249531,
+        "auc": 0.9805142607120689
+      },
+      "GradientBoosting": {
+        "threshold": 0.62,
+        "precision": 0.9418070444104135,
+        "recall": 0.9090909090909091,
+        "f1": 0.9251598345242572,
+        "auc": 0.9820495007771787
+      }
+    },
+    "ensemble": {
+      "threshold": 0.6,
+      "precision": 0.942572741194487,
+      "recall": 0.909830007390983,
+      "f1": 0.9259119969913502,
+      "auc": 0.9827768820412064
+    }
+  },
+  "comparison": {
+    "recommended_scenario": "A",
+    "f1_improvement_scenario_a": 0.024158530249607346,
+    "f1_improvement_scenario_b": 0.016890010638052178,
+    "week2_effective": true
+  }
+}

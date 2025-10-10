@@ -22,6 +22,21 @@ import random
 import math
 from datetime import datetime, timedelta
 from collections import defaultdict
+import os
+import sys
+
+# Updated detection criteria module (prepared for integration)
+sys.path.append(os.path.dirname(__file__))
+try:
+    from detection_criteria import (
+        ACCEL_DECEL_THRESHOLD_KMH_PER_S,
+        SUSTAIN_SECONDS,
+        SHARP_TURN_JUMP_THRESHOLD_DEG_MPS2,
+    )
+except Exception:
+    ACCEL_DECEL_THRESHOLD_KMH_PER_S = 10.0
+    SUSTAIN_SECONDS = 3
+    SHARP_TURN_JUMP_THRESHOLD_DEG_MPS2 = 400.0
 
 # 유틸리티 함수들
 def mean(data):
@@ -190,10 +205,32 @@ class Phase4BImproved:
             accx = normal_random(pattern['AccX_mean'], pattern['AccX_std'])
             gyroz = normal_random(pattern['GyroZ_mean'], pattern['GyroZ_std'])
             speed = normal_random(pattern['speed_mean'], pattern['speed_std'])
-            
-            rapid_accel = 1 if accx > 1.2 else 0
-            sudden_stop = 1 if accx < -1.2 else 0
-            sharp_turn = 1 if abs(gyroz) > 1.0 else 0
+
+            # Updated detection using short 4s window @1Hz
+            accy = normal_random(0, 0.3)
+            accz = normal_random(9.8, 0.2)
+            sampling_hz = 1.0
+            speeds_kmh = []
+            s = max(0.0, speed)
+            for _ in range(4):
+                s = max(0.0, s + accx * 3.6 + random.uniform(-0.8, 0.8))
+                speeds_kmh.append(s)
+            try:
+                from detection_criteria import (
+                    count_rapid_accel_events_kmh,
+                    count_rapid_decel_events_kmh,
+                    count_sharp_turn_events_jump,
+                )
+                accel_mag = math.sqrt(accx**2 + accy**2 + accz**2)
+                gyro_series = [gyroz + random.uniform(-0.2, 0.2) for _ in range(4)]
+                accel_series = [accel_mag + random.uniform(-0.2, 0.2) for _ in range(4)]
+                rapid_accel = 1 if count_rapid_accel_events_kmh(speeds_kmh, sampling_hz) > 0 else 0
+                sudden_stop = 1 if count_rapid_decel_events_kmh(speeds_kmh, sampling_hz) > 0 else 0
+                sharp_turn = 1 if count_sharp_turn_events_jump(gyro_series, accel_series, sampling_hz) > 0 else 0
+            except Exception:
+                rapid_accel = 1 if accx > 1.2 else 0
+                sudden_stop = 1 if accx < -1.2 else 0
+                sharp_turn = 1 if abs(gyroz) > 1.0 else 0
             overspeeding = 1 if speed > 100 else 0
             
             # 미국 주요 도시 근처 위치 (사고 데이터와 매칭 가능하도록)

@@ -820,9 +820,3 @@ Phase 4-D (선택): 실제 Kaggle 데이터 분석
 **🎉 Phase 4-C 완료!**
 
 Phase 1부터 Phase 4-C까지 총 4단계의 연구를 완료했습니다. 이제 실제 프로덕션 환경으로 나아갈 준비가 되었습니다!
----
-
-## 모델 개요
-- Scoring Engine: 선형 가중치 합산(Scenario A/B 주·야간 가중치)으로 실시간 점수 계산.
-- Grade Classifier: SAFE/MODERATE/AGGRESSIVE 컷오프 기반 등급 분류.
-- 학습 요소: 가중치는 이전 단계에서 도출·검증, 본 단계는 운영 관점(실시간 처리·API) 검증에 초점.

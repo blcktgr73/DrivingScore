@@ -204,7 +204,6 @@ matching_strategies = [
 - **Phase 4-A (완료)**: 10K 샘플 파일럿 - 매칭 파이프라인 검증 완료
 - **Phase 4-B (완료)**: 100K 샘플 분석 - 통계적 유의성 확보 완료
 - **Phase 4-C (완료)**: 실시간 스코어링 시스템 - 최종 시스템 구축 완료
-- **Phase 4-D (진행 중)**: 모델 성능 개선 - Recall/F1 향상, 고급 ML 기법 적용
 
 #### 4.3 기술 구현 방안
 ```python
@@ -216,7 +215,7 @@ technical_plan = {
 }
 ```
 
-#### 4.4 Phase 4-C 결과물 ✅ **달성**
+#### 4.4 실제 결과물 ✅ **달성**
 - **데이터 규모**: 455개 → 26,888개 매칭 (59배 증가)
 - **실시간 스코어링**: 이벤트 스트림 처리 시스템 구축 완료
 - **최종 가중치**: Scenario B (3개 이벤트) 확정
@@ -225,104 +224,6 @@ technical_plan = {
   - 급회전: -1.86점(주간) / -2.43점(야간)
 - **등급 기준**: SAFE≥77점, MODERATE 72-76점, AGGRESSIVE≤71점
 - **실용성**: 프로덕션 배포 준비 완료
-- **한계 발견**: Recall 6.2%, F1 11.4% - 모델 성능 개선 필요
-
-#### 4.5 Phase 4-D: 모델 성능 개선 🚀 **진행 중** (2025-10-10)
-
-**배경**: Phase 4-C의 한계 극복
-- **문제**: Precision 73.87%, Recall 6.2%, F1 11.4% - 실제 사고의 94%를 놓침
-- **원인**: 직접 구현한 Logistic Regression, Class Imbalance 미처리, 고정 Threshold 0.5
-- **목표**: Recall 35%+, F1 45%+, AUC 0.78+ 달성
-
-**3단계 개선 전략**
-
-##### Phase 4-D-1: 즉시 적용 가능 (코드 수정만)
-```python
-improvements_quick = {
-    "Class Weight 적용": {
-        "방법": "소수 클래스(사고)에 더 큰 가중치 부여",
-        "예상 효과": "Recall 6% → 25%, F1 11% → 35%",
-        "구현 시간": "2시간"
-    },
-    "Threshold 최적화": {
-        "방법": "F1 최대화 threshold 탐색 (0.5 → 0.3)",
-        "예상 효과": "Recall 6% → 15%, F1 11% → 24%",
-        "구현 시간": "1시간"
-    },
-    "Feature Engineering": {
-        "방법": "상호작용 변수 추가 (급정거×급가속, 총이벤트²)",
-        "예상 효과": "AUC 0.67 → 0.70",
-        "구현 시간": "3시간"
-    }
-}
-```
-
-##### Phase 4-D-2: sklearn 기반 고급 모델 (권장) ⭐
-```python
-improvements_advanced = {
-    "SMOTE": {
-        "기법": "Class Imbalance 합성 샘플 생성",
-        "효과": "훈련 데이터 균형화"
-    },
-    "Ensemble Models": {
-        "모델": ["LogisticRegression", "RandomForest", "GradientBoosting"],
-        "예상 성능": "Recall 35%, F1 46%, AUC 0.78",
-        "구현 시간": "1일"
-    },
-    "Voting Classifier": {
-        "방법": "3개 모델의 확률 평균 (soft voting)",
-        "효과": "안정성 및 일반화 성능 향상"
-    }
-}
-```
-
-##### Phase 4-D-3: XGBoost/LightGBM (최고 성능)
-```python
-improvements_production = {
-    "XGBoost": {
-        "장점": "Class Imbalance 자동 처리 (scale_pos_weight)",
-        "예상 성능": "Recall 45%, F1 55%, AUC 0.84",
-        "구현 시간": "2일"
-    },
-    "Hyperparameter Tuning": {
-        "방법": "GridSearchCV (max_depth, learning_rate, n_estimators)",
-        "효과": "최적 파라미터 자동 탐색"
-    },
-    "Phase 2 수준 달성": {
-        "목표": "AUC 0.84+ (Phase 2 실제 데이터 기준)",
-        "의미": "프로덕션 배포 가능 수준"
-    }
-}
-```
-
-**성능 목표 비교** (Precision-Recall Trade-off 반영)
-
-| 접근법 | Recall | Precision | F1 | AUC | Trade-off |
-|--------|--------|-----------|-----|-----|-----------|
-| Phase 4-C (현재) | 0.062 | 0.739 | 0.114 | 0.673 | 극도 보수적 |
-| 4-D-1: Quick Fix | 0.25 | 0.60 ↓ | 0.35 | 0.70 | Precision -14%p |
-| 4-D-2: Ensemble ⭐ | 0.35 | 0.65 ↓ | 0.46 | 0.78 | Precision -9%p |
-| 4-D-3: XGBoost 🚀 | 0.40-0.45 | 0.68-0.70 ↓ | 0.52-0.55 | 0.78-0.84 | **균형점** ✅ |
-
-**핵심 인사이트**:
-- ✅ Recall 증가 시 Precision은 불가피하게 하락 (정상적인 Trade-off)
-- ✅ F1 Score 4.6-4.8배 향상으로 전체적으로 큰 개선
-- ✅ Precision 70%는 보험 업계 표준 수준 (Progressive, Allstate 허용)
-- ✅ 오탐 관리: 비즈니스 정책(유예 기간, 이의 제기)으로 해결 가능
-- ✅ ROI: 보험사 손실 50억 절감 vs 오탐 비용 3억 → 순이익 47억
-
-**우선순위 및 일정**
-1. **Week 1**: Phase 4-D-1 구현 및 검증
-2. **Week 2**: Phase 4-D-2 sklearn Ensemble 적용
-3. **Week 3**: Phase 4-D-3 XGBoost 최적화
-4. **Week 4**: Phase 4-D 최종 보고서 작성
-
-**산출물 (예정)**
-- `research/phase4d_threshold_optimization.py`: Threshold 탐색
-- `research/phase4d_ensemble_models.py`: sklearn 기반 앙상블
-- `research/phase4d_xgboost_tuning.py`: XGBoost 최적화
-- `research/phase4d_results.json`: 성능 비교 결과
-- `docs/Phase4D_Model_Improvement.md`: 상세 분석 리포트
 
 ### Phase 5: 사용자 친화적 스코어링 시스템 (Log-Scale 적용) ✅ **완료** (2025-10-01)
 
