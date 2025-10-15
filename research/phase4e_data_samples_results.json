@@ -1,0 +1,821 @@
+{
+  "metadata": {
+    "date": "2025-10-15T14:08:21.167489",
+    "phase": "4E",
+    "approach": "High-quality matching (50km, ±3days, same city required)",
+    "n_accidents": 500000,
+    "n_sensors": 50000,
+    "n_matched": 13453,
+    "n_combined": 20000,
+    "match_rate": 0.26906,
+    "actual_accident_rate": 50.0,
+    "matching_criteria": {
+      "max_distance_km": 50,
+      "max_time_diff_days": 3,
+      "city_match_required": true
+    }
+  },
+  "statistics": {
+    "total_samples": 20000,
+    "positive_samples": 10000,
+    "negative_samples": 10000,
+    "positive_events": {
+      "rapid_accel": {
+        "mean": 1.362,
+        "std": 1.8148707942991558,
+        "min": 0,
+        "max": 14
+      },
+      "sudden_stop": {
+        "mean": 1.1875,
+        "std": 1.6049123807859418,
+        "min": 0,
+        "max": 11
+      },
+      "sharp_turn": {
+        "mean": 1.0417,
+        "std": 1.4579990089159536,
+        "min": 0,
+        "max": 10
+      },
+      "over_speed": {
+        "mean": 0.7413,
+        "std": 1.1074178569988706,
+        "min": 0,
+        "max": 8
+      }
+    },
+    "negative_events": {
+      "rapid_accel": {
+        "mean": 1.3484,
+        "std": 1.7652811220879616,
+        "min": 0,
+        "max": 14
+      },
+      "sudden_stop": {
+        "mean": 1.171,
+        "std": 1.605104046471822,
+        "min": 0,
+        "max": 12
+      },
+      "sharp_turn": {
+        "mean": 1.0095,
+        "std": 1.420637092997295,
+        "min": 0,
+        "max": 10
+      },
+      "over_speed": {
+        "mean": 0.716,
+        "std": 1.0904787939249967,
+        "min": 0,
+        "max": 10
+      }
+    }
+  },
+  "samples": {
+    "positive": [
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 2,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00008101",
+          "city": "Los Angeles",
+          "weather": "Fog",
+          "driver_type": "MODERATE",
+          "severity": 3,
+          "distance_km": 40.15,
+          "time_diff_hours": 58.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 1,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00004157",
+          "city": "New York",
+          "weather": "Snow",
+          "driver_type": "MODERATE",
+          "severity": 1,
+          "distance_km": 31.1,
+          "time_diff_hours": 17.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 2,
+          "sharp_turn": 7,
+          "over_speed": 3,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00010069",
+          "city": "Los Angeles",
+          "weather": "Cloudy",
+          "driver_type": "MODERATE",
+          "severity": 1,
+          "distance_km": 27.72,
+          "time_diff_hours": 29.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00004626",
+          "city": "Chicago",
+          "weather": "Clear",
+          "driver_type": "SAFE",
+          "severity": 2,
+          "distance_km": 42.39,
+          "time_diff_hours": 52.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 4,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00000498",
+          "city": "Houston",
+          "weather": "Fog",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 33.21,
+          "time_diff_hours": 69.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 4,
+          "sudden_stop": 1,
+          "sharp_turn": 0,
+          "over_speed": 1,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00000516",
+          "city": "Chicago",
+          "weather": "Rain",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 47.78,
+          "time_diff_hours": 68.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 2,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00001669",
+          "city": "Los Angeles",
+          "weather": "Rain",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 40.72,
+          "time_diff_hours": 16.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00010394",
+          "city": "Houston",
+          "weather": "Cloudy",
+          "driver_type": "SAFE",
+          "severity": 2,
+          "distance_km": 43.59,
+          "time_diff_hours": 22.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 5,
+          "sudden_stop": 0,
+          "sharp_turn": 1,
+          "over_speed": 1,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00007621",
+          "city": "Los Angeles",
+          "weather": "Cloudy",
+          "driver_type": "MODERATE",
+          "severity": 3,
+          "distance_km": 19.54,
+          "time_diff_hours": 42.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00011806",
+          "city": "New York",
+          "weather": "Snow",
+          "driver_type": "SAFE",
+          "severity": 3,
+          "distance_km": 21.99,
+          "time_diff_hours": 46.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 1,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00005878",
+          "city": "Los Angeles",
+          "weather": "Cloudy",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 46.58,
+          "time_diff_hours": 54.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 5,
+          "sudden_stop": 2,
+          "sharp_turn": 2,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00009345",
+          "city": "New York",
+          "weather": "Fog",
+          "driver_type": "AGGRESSIVE",
+          "severity": 4,
+          "distance_km": 27.3,
+          "time_diff_hours": 63.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 2,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00001611",
+          "city": "Chicago",
+          "weather": "Cloudy",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 40.53,
+          "time_diff_hours": 18.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 4,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00002344",
+          "city": "Los Angeles",
+          "weather": "Clear",
+          "driver_type": "MODERATE",
+          "severity": 1,
+          "distance_km": 48.73,
+          "time_diff_hours": 17.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 1,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00001810",
+          "city": "Chicago",
+          "weather": "Rain",
+          "driver_type": "SAFE",
+          "severity": 3,
+          "distance_km": 37.55,
+          "time_diff_hours": 72.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00007001",
+          "city": "Chicago",
+          "weather": "Fog",
+          "driver_type": "MODERATE",
+          "severity": 4,
+          "distance_km": 17.45,
+          "time_diff_hours": 7.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00006604",
+          "city": "Miami",
+          "weather": "Fog",
+          "driver_type": "MODERATE",
+          "severity": 3,
+          "distance_km": 23.22,
+          "time_diff_hours": 20.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00010127",
+          "city": "Miami",
+          "weather": "Rain",
+          "driver_type": "SAFE",
+          "severity": 1,
+          "distance_km": 40.85,
+          "time_diff_hours": 39.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00002183",
+          "city": "New York",
+          "weather": "Rain",
+          "driver_type": "SAFE",
+          "severity": 4,
+          "distance_km": 27.32,
+          "time_diff_hours": 33.0
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 4,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 1,
+        "source": "matched",
+        "metadata": {
+          "match_id": "M00008111",
+          "city": "Chicago",
+          "weather": "Cloudy",
+          "driver_type": "MODERATE",
+          "severity": 1,
+          "distance_km": 33.93,
+          "time_diff_hours": 67.0
+        }
+      }
+    ],
+    "negative": [
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 3,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00023413",
+          "city": "Chicago",
+          "driver_type": "MODERATE",
+          "trip_duration": 61
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00012857",
+          "city": "Los Angeles",
+          "driver_type": "SAFE",
+          "trip_duration": 54
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 3,
+          "sudden_stop": 0,
+          "sharp_turn": 4,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00036676",
+          "city": "Miami",
+          "driver_type": "MODERATE",
+          "trip_duration": 94
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 1,
+          "sharp_turn": 2,
+          "over_speed": 2,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00028424",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 117
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 3,
+          "sharp_turn": 0,
+          "over_speed": 2,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00012817",
+          "city": "Los Angeles",
+          "driver_type": "MODERATE",
+          "trip_duration": 35
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 1,
+          "sharp_turn": 1,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00044276",
+          "city": "Houston",
+          "driver_type": "SAFE",
+          "trip_duration": 10
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 3,
+          "sudden_stop": 0,
+          "sharp_turn": 1,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00010615",
+          "city": "Miami",
+          "driver_type": "MODERATE",
+          "trip_duration": 15
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 1,
+          "sharp_turn": 0,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00024060",
+          "city": "Los Angeles",
+          "driver_type": "SAFE",
+          "trip_duration": 71
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 3,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00017474",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 15
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 3,
+          "sharp_turn": 0,
+          "over_speed": 2,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00049768",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 66
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00018178",
+          "city": "Los Angeles",
+          "driver_type": "SAFE",
+          "trip_duration": 21
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 6,
+          "over_speed": 0,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00028868",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 52
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 2,
+          "sudden_stop": 0,
+          "sharp_turn": 2,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00046975",
+          "city": "Miami",
+          "driver_type": "SAFE",
+          "trip_duration": 109
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 3,
+          "sudden_stop": 1,
+          "sharp_turn": 2,
+          "over_speed": 2,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00016355",
+          "city": "Los Angeles",
+          "driver_type": "MODERATE",
+          "trip_duration": 108
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 1,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 3,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00005246",
+          "city": "Houston",
+          "driver_type": "SAFE",
+          "trip_duration": 73
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 5,
+          "sudden_stop": 4,
+          "sharp_turn": 0,
+          "over_speed": 2,
+          "is_night": 0
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00004016",
+          "city": "Houston",
+          "driver_type": "AGGRESSIVE",
+          "trip_duration": 94
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 5,
+          "sudden_stop": 6,
+          "sharp_turn": 1,
+          "over_speed": 2,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00004776",
+          "city": "Miami",
+          "driver_type": "MODERATE",
+          "trip_duration": 113
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 4,
+          "sudden_stop": 0,
+          "sharp_turn": 1,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00017228",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 82
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 3,
+          "sudden_stop": 6,
+          "sharp_turn": 3,
+          "over_speed": 1,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00022780",
+          "city": "Chicago",
+          "driver_type": "AGGRESSIVE",
+          "trip_duration": 46
+        }
+      },
+      {
+        "features": {
+          "rapid_accel": 0,
+          "sudden_stop": 0,
+          "sharp_turn": 0,
+          "over_speed": 0,
+          "is_night": 1
+        },
+        "label": 0,
+        "source": "unmatched",
+        "metadata": {
+          "sensor_id": "S00013349",
+          "city": "New York",
+          "driver_type": "SAFE",
+          "trip_duration": 66
+        }
+      }
+    ]
+  }
+}

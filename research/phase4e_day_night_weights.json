@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "date": "2025-10-15T14:21:20.175991",
+    "phase": "4E",
+    "day_samples": 9148,
+    "night_samples": 10852
+  },
+  "scenario_a": {
+    "day": {
+      "weights": {
+        "rapid_accel": 0.036513688404780385,
+        "sudden_stop": 0.061907525218364824,
+        "sharp_turn": 0.02194799293288048,
+        "over_speed": 0.010952856910637111,
+        "bias": -0.08453694231148798
+      },
+      "metrics": {
+        "accuracy": 0.514648010494097,
+        "precision": 0.5059435364041605,
+        "recall": 0.6047957371225577,
+        "f1": 0.5509708737864076,
+        "confusion_matrix": {
+          "tp": 681,
+          "fp": 665,
+          "tn": 496,
+          "fn": 445
+        }
+      }
+    },
+    "night": {
+      "weights": {
+        "rapid_accel": -0.03916174094866868,
+        "sudden_stop": -0.02796298067018852,
+        "sharp_turn": 0.0036253494178848994,
+        "over_speed": 0.010386973364903301,
+        "bias": 0.048001899129450784
+      },
+      "metrics": {
+        "accuracy": 0.5211942499078511,
+        "precision": 0.5254104769351056,
+        "recall": 0.49266862170087977,
+        "f1": 0.5085130533484676,
+        "confusion_matrix": {
+          "tp": 672,
+          "fp": 607,
+          "tn": 742,
+          "fn": 692
+        }
+      }
+    }
+  },
+  "scenario_b": {
+    "day": {
+      "weights": {
+        "rapid_accel": 0.03805130572316636,
+        "sudden_stop": 0.06319973461855519,
+        "sharp_turn": 0.023085147217311235,
+        "bias": -0.0826866047309359
+      },
+      "metrics": {
+        "accuracy": 0.5115872321818977,
+        "precision": 0.5033308660251665,
+        "recall": 0.6039076376554174,
+        "f1": 0.5490512716996366,
+        "confusion_matrix": {
+          "tp": 680,
+          "fp": 671,
+          "tn": 490,
+          "fn": 446
+        }
+      }
+    },
+    "night": {
+      "weights": {
+        "rapid_accel": -0.037494423149935695,
+        "sudden_stop": -0.02650280251550277,
+        "sharp_turn": 0.004804420415706424,
+        "bias": 0.04926553873679866
+      },
+      "metrics": {
+        "accuracy": 0.5167711021009952,
+        "precision": 0.5213537469782433,
+        "recall": 0.4743401759530792,
+        "f1": 0.4967370441458733,
+        "confusion_matrix": {
+          "tp": 647,
+          "fp": 594,
+          "tn": 755,
+          "fn": 717
+        }
+      }
+    }
+  },
+  "penalty_recommendation": {
+    "day": {
+      "rapid_accel": 3,
+      "sudden_stop": 5,
+      "sharp_turn": 2,
+      "over_speed": 1
+    },
+    "night": {
+      "rapid_accel": 5,
+      "sudden_stop": 4,
+      "sharp_turn": 0,
+      "over_speed": 1
+    }
+  }
+}

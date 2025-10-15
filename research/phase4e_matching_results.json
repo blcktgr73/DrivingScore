@@ -1,0 +1,26 @@
+{
+  "metadata": {
+    "date": "2025-10-15T14:08:21.167489",
+    "phase": "4E",
+    "approach": "High-quality matching (50km, ±3days, same city required)",
+    "n_accidents": 500000,
+    "n_sensors": 50000,
+    "n_matched": 13453,
+    "n_combined": 20000,
+    "match_rate": 0.26906,
+    "actual_accident_rate": 50.0,
+    "matching_criteria": {
+      "max_distance_km": 50,
+      "max_time_diff_days": 3,
+      "city_match_required": true
+    }
+  },
+  "matching_quality": {
+    "expected_label_accuracy": "85-90%",
+    "vs_phase4d": {
+      "distance": "50km (vs 200km, 4x stricter)",
+      "time": "±3days (vs ±7days, 2.3x stricter)",
+      "city": "Required (vs Preferred)"
+    }
+  }
+}

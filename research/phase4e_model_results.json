@@ -1,0 +1,179 @@
+{
+  "metadata": {
+    "date": "2025-10-15T14:16:29.896727",
+    "phase": "4E",
+    "train_samples": 15000,
+    "test_samples": 5000
+  },
+  "scenario_a": {
+    "lr": {
+      "weights": {
+        "rapid_accel": 0.00878817498754363,
+        "sudden_stop": -0.013660489992494862,
+        "sharp_turn": 0.008593057582046789,
+        "over_speed": 0.030072107432361973,
+        "bias": -0.015505499983611807
+      },
+      "best_threshold": 0.4722463239635402,
+      "metrics": {
+        "accuracy": 0.503,
+        "precision": 0.503,
+        "recall": 1.0,
+        "f1": 0.6693280106453758,
+        "auc": 0.4706291026476953,
+        "confusion_matrix": {
+          "tp": 2515,
+          "fp": 2485,
+          "tn": 0,
+          "fn": 0
+        }
+      }
+    },
+    "rf": {
+      "n_trees": 20,
+      "max_depth": 5,
+      "best_threshold": 0.42175272921962775,
+      "metrics": {
+        "accuracy": 0.5042,
+        "precision": 0.5036057692307693,
+        "recall": 0.9996023856858847,
+        "f1": 0.6697748767816704,
+        "auc": 0.4862034233232396,
+        "confusion_matrix": {
+          "tp": 2514,
+          "fp": 2478,
+          "tn": 7,
+          "fn": 1
+        }
+      }
+    },
+    "gbm": {
+      "n_estimators": 20,
+      "learning_rate": 0.1,
+      "max_depth": 3,
+      "best_threshold": 0.3507169054880528,
+      "metrics": {
+        "accuracy": 0.503,
+        "precision": 0.503,
+        "recall": 1.0,
+        "f1": 0.6693280106453758,
+        "auc": 0.47866971210963594,
+        "confusion_matrix": {
+          "tp": 2515,
+          "fp": 2485,
+          "tn": 0,
+          "fn": 0
+        }
+      }
+    },
+    "ensemble": {
+      "models": [
+        "LR",
+        "RF",
+        "GBM"
+      ],
+      "voting": "soft",
+      "best_threshold": 0.3785803553232481,
+      "metrics": {
+        "accuracy": 0.5032,
+        "precision": 0.5031006201240248,
+        "recall": 1.0,
+        "f1": 0.6694170881022091,
+        "auc": 0.48175366313187273,
+        "confusion_matrix": {
+          "tp": 2515,
+          "fp": 2484,
+          "tn": 1,
+          "fn": 0
+        }
+      }
+    }
+  },
+  "scenario_b": {
+    "lr": {
+      "weights": {
+        "rapid_accel": 0.013428241120884898,
+        "sudden_stop": -0.009950204671780071,
+        "sharp_turn": 0.012006014291261982,
+        "bias": -0.01122434295023516
+      },
+      "best_threshold": 0.47979206970882854,
+      "metrics": {
+        "accuracy": 0.503,
+        "precision": 0.503,
+        "recall": 1.0,
+        "f1": 0.6693280106453758,
+        "auc": 0.4816614998139933,
+        "confusion_matrix": {
+          "tp": 2515,
+          "fp": 2485,
+          "tn": 0,
+          "fn": 0
+        }
+      }
+    },
+    "rf": {
+      "n_trees": 20,
+      "max_depth": 5,
+      "best_threshold": 0.39273627829603214,
+      "metrics": {
+        "accuracy": 0.5038,
+        "precision": 0.5034054487179487,
+        "recall": 0.9992047713717693,
+        "f1": 0.669508458771813,
+        "auc": 0.5011382009752351,
+        "confusion_matrix": {
+          "tp": 2513,
+          "fp": 2479,
+          "tn": 6,
+          "fn": 2
+        }
+      }
+    },
+    "gbm": {
+      "n_estimators": 20,
+      "learning_rate": 0.1,
+      "max_depth": 3,
+      "best_threshold": 0.4325135873686087,
+      "metrics": {
+        "accuracy": 0.5034,
+        "precision": 0.5032038446135363,
+        "recall": 0.9992047713717693,
+        "f1": 0.6693301371687308,
+        "auc": 0.49379393658171694,
+        "confusion_matrix": {
+          "tp": 2513,
+          "fp": 2481,
+          "tn": 4,
+          "fn": 2
+        }
+      }
+    },
+    "ensemble": {
+      "models": [
+        "LR",
+        "RF",
+        "GBM"
+      ],
+      "voting": "soft",
+      "best_threshold": 0.43561223403651866,
+      "metrics": {
+        "accuracy": 0.5036,
+        "precision": 0.5033033033033033,
+        "recall": 0.9996023856858847,
+        "f1": 0.6695073235685752,
+        "auc": 0.49658507706277427,
+        "confusion_matrix": {
+          "tp": 2514,
+          "fp": 2481,
+          "tn": 4,
+          "fn": 1
+        }
+      }
+    }
+  },
+  "best_model": {
+    "name": "Scenario A - RF",
+    "f1_score": 0.6697748767816704
+  }
+}
