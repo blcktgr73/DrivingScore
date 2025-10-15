@@ -12,8 +12,8 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 
 ## 사고율 배경과 DrivingScore 전략
 
-- 자동차 사고율은 전체로 1% 내외의 저확률 이벤트지만, 한 번 발생하면 보험·의료·법적 비용이 막대합니다. 상위 20~25% 위험군은 안전군 대비 사고율이 3~5배 높아 DrivingScore는 이 집단의 행동 변화를 핵심 성과 지표로 삼습니다.
-- Progressive Snapshot, Cambridge Mobile Telematics 등 업계 사례에서는 위험군이 주행 행동 점수 개선 후 사고·클레임 발생률이 10~25% 감소한 것으로 보고됩니다. 이러한 벤치마크가 DrivingScore의 정책 설계와 목표 설정의 기준입니다.
+- 자동차 사고율은 전체로 1% 내외의 저확률 이벤트지만, 한 번 발생하면 보험·의료·법적 비용이 막대합니다. 상위 20\~25% 위험군은 안전군 대비 사고율이 3\~5배 높아 DrivingScore는 이 집단의 행동 변화를 핵심 성과 지표로 삼습니다.
+- Progressive Snapshot, Cambridge Mobile Telematics 등 업계 사례에서는 위험군이 주행 행동 점수 개선 후 사고·클레임 발생률이 10\~25% 감소한 것으로 보고됩니다. 이러한 벤치마크가 DrivingScore의 정책 설계와 목표 설정의 기준입니다.
 - 단순 결과(Outcome)에 기반한 점수만으로는 보험료 조정 외 실질적인 개선이 어렵습니다. DrivingScore는 급가속·급제동·야간 주행 등 행동 데이터를 직접 계량화해 즉각적인 피드백을 제공하는 Behavior-based 접근을 채택합니다.
 - Ground Truth(실제 사고·클레임 데이터)로 모델을 주기적으로 보정하고, 일상 운전 데이터로 행동 피드백을 제공하는 **Calibrate by Truth, Feedback by Behavior** 원칙을 운영 전략으로 삼습니다.
 
@@ -171,7 +171,7 @@ Phase 5는 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%)�
 - 과속 이벤트는 구현 부담 대비 효과가 낮아 3개 이벤트 체계를 권고.
 
 ### Phase 2 (합성 데이터)
-- Scenario A(과속 포함) vs Scenario B(과속 제외) 비교 시 AUC 차이는 0.003~0.005p 수준.
+- Scenario A(과속 포함) vs Scenario B(과속 제외) 비교 시 AUC 차이는 0.003\~0.005p 수준.
 - Scenario B는 SAFE 구간을 넓혀주지만 SAFE 사고율이 다소 높아짐.
 - 결과와 근거는 `docs/Phase2_Report.md`에 표와 함께 정리.
 
