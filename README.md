@@ -1,7 +1,7 @@
 ﻿# DrivingScore: 공개 데이터 기반 안전운전 점수 연구
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Status](https://img.shields.io/badge/status-Phase%204D%20in%20progress-orange.svg)
+![Status](https://img.shields.io/badge/status-Phase%204F%20completed-green.svg)
 ![Python](https://img.shields.io/badge/python-3.13+-blue.svg)
 
 > 공개/시뮬레이션 데이터를 분석해 신뢰할 수 있는 안전운전 점수를 구축하는 연구 프로젝트입니다.
@@ -36,7 +36,9 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 | Phase 4-A ✅ | 2025-09-30 | 파일럿: 매칭 파이프라인 검증, 9개 매칭으로 문제점 발견 |
 | Phase 4-B ✅ | 2025-09-30 | 개선: 10,000개 매칭 달성, Phase 3 대비 22배 증가 |
 | Phase 4-C ✅ | 2025-09-30 | 15,000개 실데이터 매칭, AUC 0.6725 달성, 최종 가중치 확정 |
-| Phase 4-D 🚀 | 2025-10-10 | 모델 성능 개선: Recall 6%→45%, F1 11%→55%, XGBoost 적용 |
+| Phase 4-D ✅ | 2025-10-10 | 모델 성능 개선: Recall 6%→45%, F1 11%→55%, XGBoost 적용 |
+| Phase 4-E ✅ | 2025-10-15 | 고품질 매칭(50km, ±3일), 라벨 정확도 85-90%, F1 0.670, Recall 100% |
+| Phase 4-F ✅ | 2025-10-16 | Scenario A/B 최종 비교, Linear Scoring 가중치 도출, 상품화 준비 완료 |
 | Phase 5 ✅ | 2025-10-01 | Log-scale 스코어링, 보험 업계 표준 (65/25/10) 달성, 2단계 시스템 설계 |
 | Phase 6 ⏳ | 계획 중 | 대규모 센서 데이터 수집 (50K+), Bayesian 통계 보정 |
 
@@ -45,9 +47,11 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 - **Phase 4-A/B**: 매칭 파이프라인 개선, 10,000개 달성
 - **Phase 4-C**: 15,000개 실데이터 분석, AUC 0.6725, 과학적 타당성 검증
 - **Phase 4-D**: 모델 성능 개선 - Recall 7배↑, F1 5배↑ (XGBoost, Ensemble 적용)
+- **Phase 4-E**: 고품질 매칭 강화 - 라벨 정확도 85-90%, F1 0.670, Recall 100% 달성
+- **Phase 4-F**: Scenario A/B 최종 비교 완료, Linear Scoring 가중치 도출, 상품화 준비
 - **Phase 5**: Log-scale 적용으로 사용자 친화성↑, 예측력 유지 (AUC 0.7936)
 - **핵심 성과**: 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%) 달성
-- **다음 단계**: Phase 4-D 모델 개선 완료 → 500km Chunk + 가중 평균 누적 점수
+- **다음 단계**: Phase 6 - 대규모 센서 데이터 수집 + 500km Chunk + 가중 평균 누적 점수
 
 ## 저장소 구조
 
@@ -63,6 +67,11 @@ DrivingScore/
 │   ├── Phase4B_Success_Report.md    # Phase 4-B: 성공 (10K개)
 │   ├── Phase4C_Final_Report.md      # Phase 4-C: 최종 시스템 (15K개)
 │   ├── Phase4D_Model_Improvement.md # Phase 4-D: 모델 성능 개선
+│   ├── Phase4E_Plan.md              # Phase 4-E: 고품질 매칭 계획
+│   ├── Phase4E_Final_Report.md      # Phase 4-E: 최종 리포트
+│   ├── Phase4F_Plan.md              # Phase 4-F: 최종 비교 계획
+│   ├── Phase4F_Final_Report.md      # Phase 4-F: 최종 리포트
+│   ├── Phase4F_Final_Results_Update.md # Phase 4-F: 통합 최종 결과
 │   ├── Phase4_Summary.md            # Phase 4: 종합 요약
 │   ├── Phase5_Log_Scale_Report.md   # Phase 5: Log-scale 스코어링
 │   ├── Safety_Score_Spec.md         # 안전운전 점수 명세
@@ -189,16 +198,23 @@ Phase 5는 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%)�
   - 등급 컷오프: SAFE ≥77점, MODERATE 72-76점, AGGRESSIVE ≤71점
   - Precision 73.87% 달성, EPV 1,797 (권장값의 89배)
   - **한계 발견**: Recall 6.2%, F1 11.4% - 모델 성능 개선 필요
-- **Phase 4-D**: 모델 성능 개선 ✅ **Week 1 완료** (2025-10-10)
-  - **Week 1 성과 (Quick Wins)**:
-    - **Scenario A (4개 이벤트)**: Precision 94.1%, Recall 90.5%, F1 0.9225
-    - **Scenario B (3개 이벤트)**: Precision 93.3%, Recall 88.6%, F1 0.9090
-    - Class Weight + Threshold 0.65로 목표 대폭 초과 달성
-  - **최종 권장**: Scenario A + Phase 4-D (F1 0.9225, 목표 0.55 대비 168%)
-  - **Scenario 비교**:
-    - Scenario A 우위 (+1.5% F1, 과속 이벤트 기여)
-    - Scenario B도 충분히 우수 (F1 0.9090, 구현 단순)
-  - **다음 단계**: Week 2 (Ensemble), Week 3 (XGBoost) - 선택적 진행
+- **Phase 4-D**: 모델 성능 개선 ✅ **완료** (2025-10-10)
+  - **Scenario A (4개 이벤트)**: Precision 94.1%, Recall 90.5%, F1 0.9225
+  - **Scenario B (3개 이벤트)**: Precision 93.3%, Recall 88.6%, F1 0.9090
+  - Class Weight + Threshold 0.65로 목표 대폭 초과 달성
+  - **최종 권장**: Scenario A (F1 0.9225, 목표 0.55 대비 168%)
+- **Phase 4-E**: 고품질 매칭 강화 ✅ **완료** (2025-10-15)
+  - **매칭 조건**: 거리 ≤50km (4배 엄격), 시간 ±3일 (2.3배 엄격), 도시 필수
+  - **라벨 정확도**: 85-90% (Phase 4-D: 70-80%, +10-15%p)
+  - **모델 성능**: F1 0.670, Recall 100%, Precision 50.4%
+  - **모델 다양화**: LR, RF, GBM, Ensemble 비교 (RF 최고 성능)
+  - **주간/야간 가중치**: 시간대별 이벤트 중요도 분석 완료
+- **Phase 4-F**: Scenario A/B 최종 비교 ✅ **완료** (2025-10-16)
+  - **핵심 발견**: Scenario A/B 성능 거의 동일 (AUC 차이 0.0005)
+  - **Recall 100% 달성**: 모든 위험 운전자 탐지 (Phase 4E 0.5% → 100%)
+  - **Linear Scoring**: 상품화용 감점 가중치 도출 (주간/야간 구분)
+  - **최종 권장**: Scenario B (3개 이벤트, GPS 불필요, 구현 단순)
+  - **변별력**: Risk vs Safe 14.3-19.0점 차이, 명확한 구분
 
 ### Phase 5 (Log-scale 스코어링)
 - **보험 업계 표준 달성**: SAFE 65%, MODERATE 25%, AGGRESSIVE 10%
@@ -233,7 +249,9 @@ Phase 5는 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%)�
 - `v4.1.0-phase4a` – Phase 4-A 파일럿 완료 (2025-09-30)
 - `v4.2.0-phase4b` – Phase 4-B 대규모 매칭 완료 (2025-09-30)
 - `v1.0.0-phase4c` – Phase 4-C 최종 검증 완료 (2025-09-30)
-- `v1.0.0-phase4d` – Phase 4-D 모델 성능 개선 시작 (2025-10-10, 진행 중)
+- `v1.0.0-phase4d` – Phase 4-D 모델 성능 개선 완료 (2025-10-10)
+- `v1.0.0-phase4e` – Phase 4-E 고품질 매칭 완료 (2025-10-15)
+- `v1.0.0-phase4f` – Phase 4-F Scenario 비교 완료 (2025-10-16)
 - `v1.0.0-phase5` – Phase 5 Log-scale 스코어링 완료 (2025-10-01)
 
 ## 기여 안내
