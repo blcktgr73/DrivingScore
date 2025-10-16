@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "date": "2025-10-16T13:27:48.432755",
+    "phase": "4F",
+    "approach": "High-quality matching with 4:1 ratio control",
+    "n_accidents": 500000,
+    "n_sensors": 50000,
+    "n_matched": 13453,
+    "n_combined": 20000,
+    "matching_criteria": {
+      "max_distance_km": 50,
+      "max_time_diff_days": 3,
+      "city_match_required": true
+    },
+    "ratio_control": {
+      "target_ratio": 4.0,
+      "actual_ratio": 4.0,
+      "risk_accident_rate": 0.2,
+      "safe_accident_rate": 0.05
+    }
+  },
+  "stats": {
+    "total": 20000,
+    "risk_total": 10000,
+    "safe_total": 10000,
+    "risk_accident": 2000,
+    "risk_no_accident": 8000,
+    "safe_accident": 500,
+    "safe_no_accident": 9500,
+    "risk_accident_rate": 0.2,
+    "safe_accident_rate": 0.05,
+    "actual_ratio": 4.0,
+    "target_ratio": 4.0,
+    "sampling_ratios": {
+      "risk_accident": {
+        "available": 3425,
+        "sampled": 2000,
+        "ratio": 0.583941605839416
+      },
+      "safe_accident": {
+        "available": 10028,
+        "sampled": 500,
+        "ratio": 0.0498603909054647
+      },
+      "risk_no_accident": {
+        "available": 9189,
+        "sampled": 8000,
+        "ratio": 0.8706061595385788
+      },
+      "safe_no_accident": {
+        "available": 27358,
+        "sampled": 9500,
+        "ratio": 0.3472476058191388
+      }
+    },
+    "no_oversampling": true
+  },
+  "matching_quality": {
+    "expected_label_accuracy": "85-90%",
+    "improvements": {
+      "distance": "50km (vs 100km in 4E, 2x stricter)",
+      "time": "±3days (vs ±7days in 4E)",
+      "city": "Required",
+      "ratio": "4:1 controlled (vs uncontrolled in 4E)"
+    }
+  }
+}
