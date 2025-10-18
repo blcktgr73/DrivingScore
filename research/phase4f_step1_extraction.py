@@ -406,6 +406,8 @@ def create_balanced_dataset_with_ratio(sensors, matched_data, matched_sensor_ids
             "source": "risk_accident",
             "metadata": {
                 "match_id": match['match_id'],
+                "sensor_id": match['sensor_id'],
+                "accident_id": match['accident_id'],
                 "city": match['city'],
                 "weather": match['weather'],
                 "severity": match['severity'],
@@ -429,6 +431,8 @@ def create_balanced_dataset_with_ratio(sensors, matched_data, matched_sensor_ids
             "source": "safe_accident",
             "metadata": {
                 "match_id": match['match_id'],
+                "sensor_id": match['sensor_id'],
+                "accident_id": match['accident_id'],
                 "city": match['city'],
                 "weather": match['weather'],
                 "severity": match['severity'],

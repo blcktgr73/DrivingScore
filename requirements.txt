@@ -1,0 +1,21 @@
+# DrivingScore Project - Python Dependencies
+# Updated: 2025-10-18
+
+# Core Data Science Libraries
+numpy>=1.24.0
+pandas>=2.0.0
+scipy>=1.10.0
+
+# Machine Learning
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+lightgbm>=4.0.0
+
+# Visualization (optional for analysis)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utility
+python-dateutil>=2.8.0
+
+# Note: Install with: pip install -r requirements.txt

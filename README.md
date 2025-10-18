@@ -17,7 +17,7 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 - 단순 결과(Outcome)에 기반한 점수만으로는 보험료 조정 외 실질적인 개선이 어렵습니다. DrivingScore는 급가속·급제동·야간 주행 등 행동 데이터를 직접 계량화해 즉각적인 피드백을 제공하는 Behavior-based 접근을 채택합니다.
 - Ground Truth(실제 사고·클레임 데이터)로 모델을 주기적으로 보정하고, 일상 운전 데이터로 행동 피드백을 제공하는 **Calibrate by Truth, Feedback by Behavior** 원칙을 운영 전략으로 삼습니다.
 
-다양한 공개 데이터(Kaggle 등)와 합성 데이터를 이용해 안전운전 점수의 가중치·등급·환경 보정치를 검증하고, 머신러닝 모델을 통해 성능을 비교합니다.
+합성 데이터와 시뮬레이션 데이터를 이용해 안전운전 점수의 가중치·등급·환경 보정치를 검증하고, 머신러닝 모델을 통해 성능을 비교합니다.
 
 ## 연구 목표
 
@@ -32,7 +32,7 @@ DrivingScore는 **자료 기반 근거 확보 → 제품화** 순서로 접근�
 | --- | --- | --- |
 | Phase 1 ✅ | 2025-09-27 | 상관분석으로 위험 이벤트 순위화, 야간/기상 영향 검증, 3개 이벤트 체계 권고 |
 | Phase 2 ✅ | 2025-09-27 | 합성 데이터 Scenario A/B 비교, 가중치·컷오프·모델 성능 산출 |
-| Phase 3 ✅ | 2025-09-27 | Kaggle 센서 데이터 455개 검증, 과속 포함 시 AUC +0.03 |
+| Phase 3 ✅ | 2025-09-27 | 시뮬레이션 센서 데이터 455개 검증, 과속 포함 시 AUC +0.03 |
 | Phase 4-A ✅ | 2025-09-30 | 파일럿: 매칭 파이프라인 검증, 9개 매칭으로 문제점 발견 |
 | Phase 4-B ✅ | 2025-09-30 | 개선: 10,000개 매칭 달성, Phase 3 대비 22배 증가 |
 | Phase 4-C ✅ | 2025-09-30 | 15,000개 실데이터 매칭, AUC 0.6725 달성, 최종 가중치 확정 |
@@ -108,7 +108,7 @@ git clone https://github.com/blcktgr73/DrivingScore.git
 cd DrivingScore
 
 # 필요한 패키지 설치
-pip install -r research/requirements.txt
+pip install -r requirements.txt
 ```
 
 ### Phase 1 기초 분석 실행
@@ -129,14 +129,14 @@ python phase2_model_development.py
 
 `phase2_results.json` 파일에 시나리오별 가중치, 환경 계수, 등급 컷오프, 모델 성능이 저장됩니다.
 
-### Phase 3 Kaggle 실데이터 검증
+### Phase 3 시뮬레이션 데이터 검증
 
 ```bash
 cd research
 python phase3_real_data_analysis.py
 ```
 
-실행 결과는 `phase3_results.json`에 기록되며, Scenario A/B의 실제 가중치·등급 분포·모델 성능을 비교할 수 있습니다.
+실행 결과는 `phase3_results.json`에 기록되며, Scenario A/B의 시뮬레이션 가중치·등급 분포·모델 성능을 비교할 수 있습니다.
 
 ### Phase 4 대규모 실데이터 매칭
 
@@ -184,8 +184,8 @@ Phase 5는 보험 업계 표준 분포 (SAFE 65%, MODERATE 25%, AGGRESSIVE 10%)�
 - Scenario B는 SAFE 구간을 넓혀주지만 SAFE 사고율이 다소 높아짐.
 - 결과와 근거는 `docs/Phase2_Report.md`에 표와 함께 정리.
 
-### Phase 3 (실데이터)
-- Kaggle 센서 데이터 8틱 윈도우 455개 집계, AGGRESSIVE 비중 28.6%.
+### Phase 3 (시뮬레이션 데이터)
+- 시뮬레이션 센서 데이터 8틱 윈도우 455개 집계, AGGRESSIVE 비중 28.6%.
 - Scenario A: Logistic AUC 0.743, SAFE 사고율 14.6%, Aggressive 컷오프 77점.
 - Scenario B: Logistic AUC 0.727, SAFE 사고율 23.0%, SAFE 비중 86.8%.
 
